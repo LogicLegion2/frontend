@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Barber's Brothers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/global-style.css">
+    <link rel="stylesheet" href="/css/style_principal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid vh-100">
+        <div class="row">
+            <% if (barberos && barberos.length> 0) { %>
+            <div class="d-flex flex-wrap p-0 ps-sm-5 ps-2 mt-4 cont-perf">
+                <% barberos.forEach(barbero=> { %>
+                    <div class="col-12 col-sm-4 d-flex justify-content-center mt-4 mt-sm-3">
+                        <img src="data:image/jpeg;base64,<%= barbero.img64 %>" class="border-0 rounded-4 img-perfil" alt="...">
+                    </div>
+                    <div class="col-12 col-sm-7 mt-3">
+                        <div class="grid">
+                            <!-- Edición nombre -->
+                            <div class="p-2 rounded-4 ps-3 pe-3 d-flex align-items-center justify-content-between custom-bg-dark mb-3">
+                                <b class="text-secondary">Nombre: <i class="text-light"><%= barbero.nombre %></i></b>
+                                <button type="button" class="btn align-items-center d-flex btn-min-h btn-color text-white rounded-4" onclick="toggleEdit('nombre')">Editar</button>
+                            </div>
+                            <form id="form-nombre" class="edit-form justify-content-center" style="display:none;" onsubmit="cambiarNombre(event, '<%= barbero.idBarbero %>')">
+                                <input type="text" name="nombre" class="rounded-4 form-control" value="<%= barbero.nombre %>" required>
+                                <button type="submit" class="btn align-items-center justify-content-center d-flex btn-color text-white rounded-4 mt-2 mb-2 w-100">Guardar</button>
+                            </form>
+                            <!-- Edición teléfono -->
+                            <div class="p-2 rounded-4 ps-3 pe-3 d-flex align-items-center justify-content-between custom-bg-dark mb-3">
+                                <b class="text-secondary">Teléfono: <i class="text-light"><%= barbero.telefono %></i></b>
+                                <button type="button" class="btn align-items-center d-flex btn-min-h btn-color text-white rounded-4" onclick="toggleEdit('telefono')">Editar</button>
+                            </div>
+                            <form id="form-telefono" class="edit-form justify-content-center" style="display:none;" onsubmit="cambiarTelefono(event, '<%= barbero.idBarbero %>')">
+                                <input type="text" name="telefono" class="rounded-4 form-control" value="<%= barbero.telefono %>" required>
+                                <button type="submit" class="btn align-items-center justify-content-center d-flex btn-color text-white rounded-4 mt-2 mb-2 w-100">Guardar</button>
+                            </form>
+                            <!-- Edición correo -->
+                            <div class="p-2 rounded-4 ps-3 pe-3 d-flex align-items-center justify-content-between custom-bg-dark mb-3">
+                                <b class="text-secondary">Correo: <i class="text-light"><%= barbero.correo %></i></b>
+                                <button type="button" class="btn align-items-center d-flex btn-min-h btn-color text-white rounded-4" onclick="toggleEdit('correo')">Editar</button>
+                            </div>
+                            <form id="form-correo" class="edit-form justify-content-center" style="display:none;" onsubmit="cambiarCorreo(event, '<%= barbero.idBarbero %>')">
+                                <input type="email" name="correo" class="rounded-4 form-control" value="<%= barbero.correo %>" required>
+                                <button type="submit" class="btn align-items-center justify-content-center d-flex btn-color text-white rounded-4 mt-2 mb-2 w-100">Guardar</button>
+                            </form>
+                            <!-- Edición descripcion -->
+                            <div class="p-2 rounded-4 ps-3 pe-3 d-flex align-items-center justify-content-between custom-bg-dark mb-3">
+                                <b class="text-secondary">Descripción: <i class="text-light"><%= barbero.descripcion %></i></b>
+                                <button type="button" class="btn align-items-center d-flex btn-min-h btn-color text-white rounded-4" onclick="toggleEdit('descripcion')">Editar</button>
+                            </div>
+                            <form id="form-descripcion" class="edit-form justify-content-center" style="display:none;" onsubmit="cambiarDescripcion(event, '<%= barbero.idBarbero %>')">
+                                <input type="text" name="descripcion" class="rounded-4 form-control" value="<%= barbero.descripcion %>" required>
+                                <button type="submit" class="btn align-items-center justify-content-center d-flex btn-color text-white rounded-4 mt-2 mb-2 w-100">Guardar</button>
+                            </form>
+                            <!-- Edición foto -->
+                            <form id="form-foto" class="edit-form justify-content-center" onsubmit="cambiarFoto(event, '<%= barbero.idBarbero %>')" enctype="multipart/form-data">
+                                <label for="formFile" class="form-label custom-text-secondary">Seleccionar foto de perfil:</label>
+                                <input type="file" name="foto" class="custom-text-secondary mb-3 text-center rounded-4 border-0 form-control" id="formFile" required>
+                                <button type="submit" class="btn align-items-center justify-content-center d-flex btn-color text-white rounded-4 mt-2 mb-3 w-100">Guardar</button>
+                            </form>
+                            <!-- Edición contraseña -->
+                            <div class="d-flex justify-content-center mb-3">
+                                <button type="button" class="btn btn-color rounded-4 p-2 text-white w-100 h-100"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
+                                    aria-expanded="false" aria-controls="collapseWidthExample">Cambiar
+                                    Contraseña</button>
+                            </div>
+                            <!-- Botón para cerrar sesión -->
+                            <div class="d-flex justify-content-center mb-3">
+                                <button type="button" class="btn btn-color rounded-4 p-2 text-white w-100 h-100" onclick="cerrarSesion()">Cerrar Sesión</button>
+                            </div>
+                            <div class="d-flex justify-content-center mt-4" style="min-height: 220px;">
+                                <div class="collapse collapse-horizontal" id="collapseWidthExample">
+                                    <div class="card card-body custom-bg-dark rounded-4" style="width: 100%;">
+                                        <form id="form-contrasena" onsubmit="cambiarContrasena(event, '<%= barbero.idBarbero %>')">
+                                            <input type="password" name="contrasena" class="form-control rounded-4 mb-2" placeholder="Ingrese su contraseña" required>
+                                            <input type="password" name="contrasenaNueva" class="form-control rounded-4 mb-2" placeholder="Ingrese su nueva contraseña" required>
+                                            <input type="password" name="confirmarContrasena" class="form-control rounded-4 mb-2" placeholder="Confirme su nueva contraseña" required>
+                                            <button type="submit" class="btn btn-color rounded-4 text-white">Cambiar contraseña</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/edicion_cuenta_barbero.js"></script>
+    <script src="/js/login.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Barber's Brothers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/global-style.css">
+    <link rel="stylesheet" href="/css/style_principal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-0 p-0">
+                <nav class="navbar z-2 custom-bg-color fixed-top navbar-dark">
+                    <div class="container-fluid d-flex flex-row-reverse">
+                        <a class="navbar-brand me-auto ms-auto fs-1 fw-bold" href="#">Carrito de Compras</a>
+                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                            aria-labelledby="offcanvasDarkNavbarLabel">
+                            <div class="offcanvas-header menu-top">
+                                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu Cuenta</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body menu-top">
+                                <div class="d-grid gap-3">
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/reservar">Reservar</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/favorito">Lista Favoritos</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/home">Página Principal</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/reserva">Reservas</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/entrega">Entregas</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/reembolso">Reembolsos</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/cita">Historial de Reseras</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/compra">Historial de Compras</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/carrito">Carrito de Compras</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                    <li
+                                        class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
+                                        <a class="nav-link " href="/cliente/perfil">Mi cuenta</a><i
+                                            class="bi bi-chevron-right"></i>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <div class="mt-5 mb-5 pt-5 pb-5">
+                    <% if (productos && productos.length> 0) { %>
+                        <% productos.forEach(producto=> { %>
+                            <div class="d-grid gap-3 m-3 cont-perf">
+                                <div id="carrito" class="d-flex rounded-3 custom-bg-dark flex-sm-row flex-column">
+                                    <div class="m-2 flex-shrink-0 d-flex justify-content-center">
+                                        <img src="data:image/jpeg;base64,<%= producto.img64 %>" id="fotomostrar" alt="..."
+                                            class="mg-thumbnail img-car rounded-3 mt-1 ms-2">
+                                    </div>
+                                    <div class="w-100 d-flex m-1 p-1 align-items-center">
+                                        <div class="cont-controles p-2">
+                                            <i class="text-light txt-car">
+                                                <%= producto.producto %>
+                                            </i><br>
+                                            <i class="text-light txt-car" id="precioUnidad-<%= producto.idProducto %>">
+                                                $ <%= producto.precio %></i><br>
+                                        </div>
+                                        <div class="input-group h-25 p-2 d-flex flex-column justify-content-center">
+                                            <div class="border-opacity-25 border rounded w-input-group d-flex">
+                                                <span class="input-group-btn">
+                                                    <button type="button"
+                                                        class="border-end border-0 custom-bg-color rounded-0 w-car-btn rounded-start h-100 btn btn-primary"
+                                                        onclick="disminuirValor(<%= producto.idProducto %>)">-</button>
+                                                </span>
+                                                <input type="number"
+                                                    class="w-input-btn form-control border-0 text-center"
+                                                    id="unidades-<%= producto.idProducto %>" value="1" min="1"
+                                                    style="background-color: #0D0B22;"
+                                                    onchange="actualizarTotal(<%= producto.idProducto %>)">
+                                                <span class="input-group-btn">
+                                                    <button type="button"
+                                                        class="border-start border-0 custom-bg-color rounded-0 w-car-btn rounded-end h-100 btn btn-primary"
+                                                        onclick="aumentarValor(<%= producto.idProducto %>)">+</button>
+                                                </span>
+                                            </div>
+                                            <div class="w-50 input-group p-sm-2 p-0 d-flex justify-content-center">
+                                                <input type="number"
+                                                    class="txt-car form-car border-0 text-white fw-bold text-white text-center"
+                                                    id="total-<%= producto.idProducto %>" value="<%= producto.precio %>"
+                                                    readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                        <% } else { %>
+                        <p class="w-100 text-center text-white fs-5 mt-5 pt-5">No hay productos en el carrito.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="navbar z-1 menu-top fixed-bottom mt-3 p-sm-4 p-3 cont-car d-flex align-items-center w-100 justify-content-between">
+        <div>
+            <a href="/cliente/comprar" class="btn btn-color text-white fw-bold rounded-4 txt-car">Realizar
+                Compra</a>
+        </div>
+        <div>
+            <input type="text" class="txt-car txt-car-inp fw-bold form-car text-center text-white border-0"
+                id="totalGlobal" value="$0.00" readonly>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <script>
+        const img64 = `data:image/jpeg;base64,${document.getElementById('perimagen').value}`;
+        const fotomostrar = document.getElementById('fotomostrar');
+        fotomostrar.src = img64;
+
+        function aumentarValor(idProducto) {
+            let unidades = parseInt(document.getElementById(`unidades-${idProducto}`).value);
+            unidades++;
+            document.getElementById(`unidades-${idProducto}`).value = unidades;
+            actualizarTotal(idProducto);
+        }
+
+        function disminuirValor(idProducto) {
+            let unidades = parseInt(document.getElementById(`unidades-${idProducto}`).value);
+            if (unidades > 1) {
+                unidades--;
+                document.getElementById(`unidades-${idProducto}`).value = unidades;
+                actualizarTotal(idProducto);
+            }
+        }
+
+        function actualizarTotal(idProducto) {
+            let unidades = parseInt(document.getElementById(`unidades-${idProducto}`).value);
+            let precioUnidad = parseFloat(document.getElementById(`precioUnidad-${idProducto}`).innerText.replace('$', ''));
+            let total = unidades * precioUnidad;
+            document.getElementById(`total-${idProducto}`).value = total;
+            actualizarTotalGlobal();
+        }
+
+        function actualizarTotalGlobal() {
+            let totalGlobal = 0;
+            document.querySelectorAll('input[id^="total-"]').forEach(input => {
+                totalGlobal += parseFloat(input.value);
+            });
+            document.getElementById('totalGlobal').value = `$${totalGlobal}`;
+        }
+    </script>
+</body>
+
+</html>
