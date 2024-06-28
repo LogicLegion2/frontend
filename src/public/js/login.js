@@ -48,7 +48,7 @@ const loguear = async () => {
                     window.location.href = "/barbero/home";
                     break;
                 default:
-                    window.location.href = "/home/login";
+                    window.location.href = "/login";
             }
         }
     } catch (err) {

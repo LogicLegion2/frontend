@@ -6,7 +6,7 @@ import rutaBarbero from "./routes.barbero.js";
 
 const ruta = Router();
 
-ruta.use("/home", rutaHome);
+ruta.use("/", rutaHome);
 ruta.use("/cliente", rutaCliente);
 ruta.use("/admin", rutaAdmin);
 ruta.use("/barbero", rutaBarbero);
