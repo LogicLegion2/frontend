@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Barber's Brothers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/global-style.css">
+    <link rel="stylesheet" href="/css/style_principal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="fondo container-fluid px-0">
+        <div class="row vh-100 w-100 p-0 m-0">
+            <nav class="navbar nav-underline menu-top navbar-expand col-12 fixed-top">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav w-100 justify-content-between">
+                            <a class="nav-link text-white" href="/cliente/reservar">Reservar</a>
+                            <a class="nav-link text-white" href="#bar">Barberos</a>
+                            <a class="nav-link text-white" href="#ser">Servicios</a>
+                            <a class="nav-link text-white" href="#pro">Productos</a>
+                            <a class="nav-link text-white" href="#ofe">Ofertas</a>
+                            <a class="nav-link text-white" href="#ubi">Ubicaciones</a>
+                            <a class="nav-link text-white" href="#pre">Preguntas</a>
+                            <a class="nav-link text-white" href="#con">Contacto</a>
+                            <a class="nav-link text-white" href="/cliente/menu">Ver mas...</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="col-12 px-0">
+                <div class="fondo position-relative vh-100 d-flex justify-content-center align-items-center">
+                    <div class="vh-100 position-relative overflow-hidden">
+                        <img class="w-100 min-vh-100 img-fondo" src="/img/fondo.png" alt="">
+                    </div>
+                    <div class="position-absolute vh-100 w-100" style="background-color: #120f2f74;">
+                    </div>
+                    <h1 class="main-title text-white position-absolute text-center fw-bold">
+                        The<br>Barber's<br>Brothers</h1>
+                </div>
+            </div>
+        </div>
+        <!-- Sección barberos -->
+        <!-- Cabecera -->
+        <section id="bar" class="barberos-c">
+            <div class="cabecera mt-5 align-items-center flex-column flex-sm-row justify-content-center row me-0">
+                <h1 class="col-lg-9 col-md-8 col-sm-7 text-center titulo fs-1 text-light fw-bold">Barberos
+                </h1>
+                <form method="get" class="col-lg-3 col-md-4 col-sm-5 justify-content-center justify-content-sm-start d-flex "
+                    role="search">
+                    <input name="desc" class="form-control inp-bus rounded-4 text-white" type="search" placeholder="Buscar Barbero..." aria-label="Search">
+                    <input type="hidden" name="tipo" value="barbero">
+                    <button class="btn btn-bus border-white rounded-4 ms-1 btn-outline-primary" type="submit"><img
+                            src="/img/lupa2.png" class="lupa mb-1"></button>
+                </form>
+            </div>
+            <!-- Carrusel barberos -->
+            <div id="carousel1" class="carousel slide">
+                <div class="carousel-inner pt-5 pb-5">
+                    <% if (barberos && barberos.length > 0) { 
+                        let barberoChunks = [];
+                        for (let i = 0; i < barberos.length; i += 5) {
+                            barberoChunks.push(barberos.slice(i, i + 5));
+                        }
+                    %>
+                    <% barberoChunks.forEach((chunk, chunkIndex) => { %>
+                        <!-- Primer slide barberos -->
+                        <div class="carousel-item <%= chunkIndex === 0 ? 'active' : '' %>">
+                            <div class="cards-wrapper w-100 d-flex">
+                                <% chunk.forEach(barbero => { %>
+                                <div class="opc ms-3 me-4">
+                                    <a class="btn-barb">
+                                        <div class="tarjeta tarjeta-sma card d-flex cursor-pointer align-items-center justify-content-around p-2 rounded-4 z-0">
+                                            <a class="btn-fav btn align-self-start position-absolute p-0">
+                                                <img src="/img/amor.png" alt="" class="icon-fav mt-menor">
+                                            </a>
+                                            <img src="data:image/jpeg;base64,<%= barbero.img64 %>" alt="" class="foto rounded-4 mb-2">
+                                            <a href="/cliente/barbero/<%= barbero.id %>"
+                                                class="nombre z-1 w-100 text-center text-light fs-5 fw-bold mb-2 pb-2 border-bottom border-2 border-light">
+                                                <%= barbero.barbero %>
+                                            </a>
+                                            <p class="desc fw-light z-1 card-text text-break text-light text-center">
+                                                <%= barbero.descripcion %>
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <% }); %>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+                <!-- Botones carrusel -->
+                <button class="carousel-control-prev mt-5 rounded-end-4" type="button" data-bs-target="#carousel1"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next mt-5 rounded-start-4" type="button" data-bs-target="#carousel1"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        <!-- Sección servicios -->
+        <!-- Cabecera -->
+        <section id="ser" class="servicios-c">
+            <div class="cabecera align-items-center pt-3 flex-column flex-sm-row justify-content-center row me-0">
+                <h1 class="col-lg-9 col-md-8  col-sm-7 text-center titulo pt-4 fs-1 text-light fw-bold">Servicios
+                </h1>
+                <form method="get" class="col-lg-3 col-md-4 col-sm-5 mt-3 d-flex justify-content-center justify-content-sm-start"
+                    role="search">
+                    <input name="desc" class="form-control inp-bus rounded-4 text-white" type="search"
+                        placeholder="Buscar Servicio..." aria-label="Search">
+                    <input type="hidden" name="tipo" value="servicio">
+                    <button class="btn btn-bus border-white rounded-4 ms-1 btn-outline-primary" type="submit"><img
+                            src="/img/lupa2.png" class="lupa mb-1"></button>
+                </form>
+            </div>
+            <!-- Carrusel servicios -->
+            <div id="carousel2" class="carousel slide">
+                <div class="carousel-inner pt-5 pb-5">
+                    <% if (servicios && servicios.length > 0) { 
+                        let servicioChunks = [];
+                        for (let i = 0; i < servicios.length; i += 5) {
+                            servicioChunks.push(servicios.slice(i, i + 5));
+                        }
+                    %>
+                    <% servicioChunks.forEach((chunk, chunkIndex) => { %>
+                    <div class="carousel-item <%= chunkIndex === 0 ? 'active' : '' %>">
+                        <div class="cards-wrapper w-100 d-flex">
+                            <% chunk.forEach(servicio => { %>
+                            <div class="opc d-block ms-3 me-4">
+                                <div class="tarjeta tarjeta-med card d-flex align-items-center justify-content-around p-2 rounded-4 z-0">
+                                    <button class="btn-fav btn align-self-start position-absolute p-0">
+                                        <img src="/img/amor.png" alt="" class="icon-fav mt-menor-max">
+                                    </button>
+                                    <img src="data:image/jpeg;base64,<%= servicio.img64 %>" alt="" class="foto rounded-4 mb-2">
+                                    <p
+                                        class="nombre z-1 w-100 text-center text-light fs-5 fw-bold mb-2 pb-2 border-bottom border-2 border-light">
+                                        <%= servicio.tipoServicio %></p>
+                                    <p class="desc fw-light z-1 card-text text-break text-light text-center"><%= servicio.descripcion %></p>
+                                    <div
+                                        class="cont-precio border-top align-items-center border-2 border-light w-100 d-flex flex-row card-text text-light text-center">
+                                        <p class="precio m-1 w-100 text-center">$ <%= servicio.precio %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                </div>
+                <button class="carousel-control-prev height-max-ser mt-5 rounded-end-4" type="button"
+                    data-bs-target="#carousel2" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next height-max-ser mt-5 rounded-start-4" type="button"
+                    data-bs-target="#carousel2" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        <!-- Sección productos -->
+        <!-- Cabecera -->
+        <section id="pro" class="productos-c w-100 m-0">
+            <div class="cabecera align-items-center pt-3 flex-column flex-sm-row justify-content-center row me-0">
+                <h1 class="col-lg-9 col-md-8 col-sm-7 text-center titulo pt-4 fs-1 text-light fw-bold">Productos
+                </h1>
+                <form method="get" class="col-lg-3 col-md-4 col-sm-5 mt-3 d-flex justify-content-center justify-content-sm-start"
+                    role="search">
+                    <input name="desc" class="form-control inp-bus rounded-4 text-white" type="search"
+                        placeholder="Buscar Producto..." aria-label="Search">
+                    <input type="hidden" name="tipo" value="producto">
+                    <button class="btn btn-bus border-white rounded-4 ms-1 btn-outline-primary" type="submit"><img
+                            src="/img/lupa2.png" class="lupa mb-1"></button>
+                </form>
+            </div>
+            <!-- Carrusel productos -->
+            <div id="carousel3" class="carousel slide">
+                <div class="carousel-inner pt-5 pb-5">
+                    <% if (productos && productos.length > 0) { 
+                        let productoChunks = [];
+                        for (let i = 0; i < productos.length; i += 5) {
+                            productoChunks.push(productos.slice(i, i + 5));
+                        }
+                    %>
+                    <% productoChunks.forEach((chunk, chunkIndex) => { %>
+                    <div class="carousel-item <%= chunkIndex === 0 ? 'active' : '' %>">
+                        <div class="cards-wrapper w-100 d-flex">
+                            <% chunk.forEach(producto => { %>
+                            <div class="opc d-block ms-3 me-4">
+                                <div class="tarjeta tarjeta-med card d-flex align-items-center  justify-content-around p-2 rounded-4 z-0">
+                                    <img src="data:image/jpeg;base64,<%= producto.img64 %>" alt="" class="foto rounded-4 mb-2">
+                                    <p
+                                        class="nombre text-light w-100 text-center fs-5 fw-bold mb-2 pb-2 border-bottom border-2 border-light">
+                                        <%= producto.producto %></p>
+                                    <p class="desc fw-light mb-1 card-text text-break text-light text-center"><%= producto.descripcion %></p>
+                                    <div
+                                        class="cont-precio border-top align-items-center border-2 border-light w-100 d-flex flex-row card-text text-light text-center">
+                                        <button class="btn-fav btn">
+                                            <img src="/img/amor.png" alt="" class="icon-favorito">
+                                        </button>
+                                        <p class="precio m-1 w-100 text-center">$<%= producto.precio %></p>
+                                        <button class="btn-car btn">
+                                            <img src="/img/carrito-de-compras.png" alt="" class="icon-car">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                </div>
+                <button class="carousel-control-prev height-max mt-5 rounded-end-4" type="button"
+                    data-bs-target="#carousel3" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next height-max mt-5 rounded-start-4" type="button"
+                    data-bs-target="#carousel3" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        <!-- Sección ofertas -->
+        <!-- Cabecera -->
+        <section id="ofe" class="ofertas-c w-100 m-0">
+            <div class="cabecera align-items-center pt-3 flex-column flex-sm-row justify-content-center row me-0">
+                <h1 class="col-lg-9 col-md-8 col-sm-7 text-center titulo pt-4 fs-1 text-light fw-bold">Ofertas
+                    Especiales</h1>
+                <form method="get" class="col-lg-3 col-md-4 col-sm-5 mt-3 d-flex justify-content-center justify-content-sm-start"
+                    role="search">
+                    <input name="desc" class="form-control inp-bus rounded-4 text-white" type="search"
+                        placeholder="Buscar Oferta..." aria-label="Search">
+                    <input type="hidden" name="tipo" value="oferta">
+                    <button class="btn btn-bus border-white rounded-4 ms-1 btn-outline-primary" type="submit"><img
+                            src="/img/lupa2.png" class="lupa mb-1"></button>
+                </form>
+            </div>
+            <!-- Carrusel ofertas -->
+            <div id="carousel5" class="carousel slide">
+                <div class="carousel-inner pt-5 pb-5">
+                    <% if (ofertas && ofertas.length > 0) { 
+                        let ofertaChunks = [];
+                        for (let i = 0; i < ofertas.length; i += 5) {
+                            ofertaChunks.push(ofertas.slice(i, i + 5));
+                        }
+                    %>
+                    <% ofertaChunks.forEach((chunk, chunkIndex) => { %>
+                    <div class="carousel-item <%= chunkIndex === 0 ? 'active' : '' %>">
+                        <div class="cards-wrapper w-100 d-flex">
+                            <% chunk.forEach(oferta => { %>
+                            <div class="opc d-block ms-3 me-4">
+                                <div class="tarjeta tarjeta-big card d-flex align-items-center justify-content-around p-2 rounded-4 z-0">
+                                    <img src="data:image/jpeg;base64,<%= oferta.img64 %>" alt="" class="foto rounded-4 mb-2">
+                                    <p
+                                        class="nombre text-light w-100 text-center fs-5 fw-bold mb-2 pb-2 border-bottom border-2 border-light">
+                                        <%= oferta.productos %></p>
+                                    <p class="desc fw-light mb-1 card-text text-break text-light text-center"><%= oferta.descripcion %></p>
+                                    <div
+                                        class="cont-precio border-top align-items-center border-2 border-light w-100 d-flex flex-row card-text text-light text-center">
+                                        <button class="btn-fav btn">
+                                            <img src="/img/amor.png" alt="" class="icon-favorito">
+                                        </button>
+                                        <p class="precio m-1 w-100 text-center">$<%= oferta.precio %></p>
+                                        <button class="btn-car btn">
+                                            <img src="/img/carrito-de-compras.png" alt="" class="icon-car">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                </div>
+                <button class="carousel-control-prev height-max-ofe mt-5 rounded-end-4" type="button"
+                    data-bs-target="#carousel5" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next height-max-ofe mt-5 rounded-start-4" type="button"
+                    data-bs-target="#carousel5" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        <!-- Sección ubicaciones -->
+        <!-- Cabecera -->
+        <section id="ubi" class="ubicaciones-c w-100 m-0">
+            <div class="cabecera align-items-center pt-3 flex-column flex-sm-row justify-content-center row me-0">
+                <h1 class="col-lg-9 col-md-8 col-sm-7 text-center titulo pt-4 fs-1 text-light fw-bold">Ubicaciones
+                </h1>
+                <form method="get" class="col-lg-3 col-md-4 col-sm-5 mt-3 d-flex justify-content-center justify-content-sm-start"
+                    role="search">
+                    <input name="desc" class="form-control inp-bus rounded-4 text-white" type="search"
+                        placeholder="Buscar Ubicación..." aria-label="Search">
+                    <input type="hidden" name="tipo" value="ubicacione">
+                    <button class="btn btn-bus border-white rounded-4 ms-1 btn-outline-primary" type="submit"><img
+                            src="/img/lupa2.png" class="lupa mb-1"></button>
+                </form>
+            </div>
+            <!-- Carrusel ubicaciones -->
+            <div id="carousel4" class="carousel slide">
+                <div class="carousel-inner pt-5 pb-5">
+                    <% if (ubicaciones && ubicaciones.length > 0) { 
+                        let ubicacionChunks = [];
+                        for (let i = 0; i < ubicaciones.length; i += 5) {
+                            ubicacionChunks.push(ubicaciones.slice(i, i + 5));
+                        }
+                    %>
+                    <% ubicacionChunks.forEach((chunk, chunkIndex) => { %>
+                    <div class="carousel-item <%= chunkIndex === 0 ? 'active' : '' %>">
+                        <div class="cards-wrapper w-100 d-flex">
+                            <% chunk.forEach(ubicacion => { %>
+                            <div class="opc d-block ms-3 me-4">
+                                <div class="tarjeta tarjeta-sma card d-flex align-items-center justify-content-around p-2 rounded-4 z-0">
+                                    <img src="data:image/jpeg;base64,<%= ubicacion.img64 %>" alt="" class="foto rounded-4 mb-2">
+                                    <p
+                                        class="nombre text-light w-100 text-center fs-5 fw-bold mb-2 pb-2 border-bottom border-2 border-light">
+                                        <%= ubicacion.titulo %></p>
+                                    <p class="desc-ubi mb-1 card-text text-break text-light text-center"><%= ubicacion.ubicacion %></p>
+                                    <div
+                                        class="cont-desc border-top border-2 border-light w-100 d-flex flex-row card-text text-light text-center">
+                                        <p class="desc fw-light m-1 w-100 text-center"><%= ubicacion.descripcion %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                </div>
+                <button class="carousel-control-prev mt-5 rounded-end-4" type="button" data-bs-target="#carousel4"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next mt-5 rounded-start-4" type="button" data-bs-target="#carousel4"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        <!-- Sección preguntas -->
+        <section id="pre" class="preguntas-c pb-4">
+            <!-- Cabecera -->
+            <div class="cabecera align-items-center pt-3 flex-column flex-sm-row justify-content-center row me-0">
+                <h1 class="col-12 text-center titulo pt-5 fs-1 text-light fw-bold">Preguntas Frecuentes</h1>
+            </div>
+            <% if (preguntas[0] && preguntas[0].length > 0) { %>
+            <!-- Contenedor de preguntas -->
+            <div class="cont-preg mt-4 mb-4 w-100 d-flex flex-column align-items-center">
+                <% preguntas[0].forEach(pregunta=> { %>
+                <div class="preg w-75">
+                    <p class="txt-preg mt-4 m-0 ps-2 text-light"><%= pregunta.pregunta %></p>
+                    <p class="txt-resp text-light p-2 rounded-3 mb-4"><%= pregunta.respuesta %></p>
+                </div>
+                <% }); %>
+            </div>
+            <% } %>
+        </section>
+        <!-- Sección de contacto -->
+        <section id="con" class="contacto w-100 p-5 d-flex justify-content-center flex-column col-12">
+            <h1 class="titulo-cont text-light text-center mb-4">Contacto</h1>
+            <a href="https://www.instagram.com/the_barbers_brothers/"
+                class="text-cont text-light text-center mb-4 fs-5"><img class="icono-cont me-2" src="/img/instagram.png"
+                    alt="">@the_barbers_brothers</a>
+            <a href="" class="text-cont text-light text-center mb-4 fs-5"><img class="icono-cont me-2"
+                    src="/img/facebook.png" alt="">The Barbers Brothers</a>
+            <a href="" class="text-cont text-light text-center mb-4 fs-5"><img class="icono-cont me-2"
+                    src="/img/whatsapp.png" alt="">320-522-6481</a>
+            <div class="w-100 d-flex mt-3">
+                <a href="" class="btn btn-color pt-2 pb-2 rounded-4 p-2 ms-5 me-3 text-white w-50 h-100">Documentación API</a>
+                <a href="/cliente/docs" class="btn btn-color pt-2 pb-2 rounded-4 p-2 ms-5 me-3 text-white w-50 h-100">Documentación</a>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

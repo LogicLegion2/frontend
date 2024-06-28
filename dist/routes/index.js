@@ -1,18 +1,14 @@
-"use strict";
+import { Router } from "express";
+import rutaHome from "./routes.home.js";
+import rutaCliente from "./routes.clientes.js";
+import rutaAdmin from "./routes.admin.js";
+import rutaBarbero from "./routes.barbero.js";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-var _express = require("express");
-var _routesHome = _interopRequireDefault(require("./routes.home.js"));
-var _routesClientes = _interopRequireDefault(require("./routes.clientes.js"));
-var _routesAdmin = _interopRequireDefault(require("./routes.admin.js"));
-var _routesBarbero = _interopRequireDefault(require("./routes.barbero.js"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var ruta = (0, _express.Router)();
-ruta.use("/", _routesHome["default"]);
-ruta.use("/cliente", _routesClientes["default"]);
-ruta.use("/admin", _routesAdmin["default"]);
-ruta.use("/barbero", _routesBarbero["default"]);
-var _default = exports["default"] = ruta;
+const ruta = Router();
+
+ruta.use("/", rutaHome);
+ruta.use("/cliente", rutaCliente);
+ruta.use("/admin", rutaAdmin);
+ruta.use("/barbero", rutaBarbero);
+
+export default ruta;

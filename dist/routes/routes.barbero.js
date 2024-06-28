@@ -1,12 +1,9 @@
-"use strict";
+import { Router } from "express";
+import { paginaPrincipalBarbero, perfilBarbero } from "../controllers/controllers.barbero.js";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-var _express = require("express");
-var _controllersBarbero = require("../controllers/controllers.barbero.js");
-var rutaBarbero = (0, _express.Router)();
-rutaBarbero.get("/home", _controllersBarbero.paginaPrincipalBarbero);
-rutaBarbero.get("/perfil", _controllersBarbero.perfilBarbero);
-var _default = exports["default"] = rutaBarbero;
+const rutaBarbero = Router();
+
+rutaBarbero.get("/home", paginaPrincipalBarbero);
+rutaBarbero.get("/perfil", perfilBarbero);
+
+export default rutaBarbero;
