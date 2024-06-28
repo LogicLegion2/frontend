@@ -94,7 +94,7 @@ const cerrarSesion = async () => {
             document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
             // Redireccionar al login
-            window.location.href = "/home/login";
+            window.location.href = "/";
         } else {
             // Manejar errores
             console.error("Error al cerrar sesión:", data.message);
