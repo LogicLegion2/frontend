@@ -28,7 +28,7 @@
                     </div>
                     <a href="/barbero/perfil" class="btn btn-color text-white mt-5 rounded-4 p-2 w-50">Mi
                         Cuenta</a>
-                    <a href="<%= url + '/reservas/pdf/barbero/' + barbero.idBarbero + '/' + barbero.nombre %>" class="btn btn-color text-white mt-5 rounded-4 p-2 w-50">Exportar pdf</a>
+                    <a href="<%= url + '/reservas/pdf/barbero/' + barbero.idBarbero + '/' +  encodeURIComponent(barbero.nombre) %>" class="btn btn-color text-white mt-5 rounded-4 p-2 w-50">Exportar pdf</a>
                     <% }); %>
                 <% } %>
             </div>
