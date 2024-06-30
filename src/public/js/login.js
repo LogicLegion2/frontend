@@ -17,15 +17,27 @@ const loguear = async () => {
     };
 
     try {
+        Swal.fire({
+            title: `<h5 style='color:white; font-family: "Aleo", serif;'>Iniciando Sesión</h5>`,
+            allowOutsideClick: false,
+            timer: 15000,
+            customClass: {
+                popup: 'bg-alert',
+                content: 'text-alert'
+            },
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
         const response = await fetch(urlLogic, options);
         const data = await response.json();
-
+        
         if (data.error) {
             Swal.fire({
                 icon: 'warning',
                 title: `<h5 style='color:white; font-family: "Aleo", serif;'>${data.message}</h5>`,
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2500,
                 customClass: {
                     popup: 'bg-alert',
                     content: 'text-alert'
