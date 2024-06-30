@@ -15,7 +15,8 @@ async function eliminarComentario(id) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             if (id) {
-                const respuesta = await fetch('http://localhost:3000/comentarios/eliminar', {
+                const urlLogic = sessionStorage.getItem("urlLogic") + `/comentarios/eliminar`;
+                const respuesta = await fetch(urlLogic, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
