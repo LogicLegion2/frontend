@@ -370,10 +370,10 @@
             <div class="cabecera align-items-center pt-3 flex-column flex-sm-row justify-content-center row me-0">
                 <h1 class="col-12 text-center titulo pt-5 fs-1 text-light fw-bold">Preguntas Frecuentes</h1>
             </div>
-            <% if (preguntas[0] && preguntas[0].length > 0) { %>
+            <% if (preguntas && preguntas.length > 0) { %>
             <!-- Contenedor de preguntas -->
             <div class="cont-preg mt-4 mb-4 w-100 d-flex flex-column align-items-center">
-                <% preguntas[0].forEach(pregunta=> { %>
+                <% preguntas.forEach(pregunta=> { %>
                 <div class="preg w-75">
                     <p class="txt-preg mt-4 m-0 ps-2 text-light"><%= pregunta.pregunta %></p>
                     <p class="txt-resp text-light p-2 rounded-3 mb-4"><%= pregunta.respuesta %></p>
