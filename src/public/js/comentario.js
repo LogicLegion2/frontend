@@ -15,15 +15,16 @@ async function eliminarComentario(id) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             if (id) {
+                const token = sessionStorage.getItem("token")
                 const urlLogic = sessionStorage.getItem("urlLogic") + `/comentarios/eliminar`;
                 const respuesta = await fetch(urlLogic, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "x-access-token": token
                     },
                     body: JSON.stringify({ id: id })
                 });
-
                 if (respuesta.ok) {
                     Swal.fire({
                         icon: 'success',
@@ -40,8 +41,8 @@ async function eliminarComentario(id) {
                     }, 1500);
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Intentalo de nuevo más tarde' + "</h5>",
+                        icon: 'warning',
+                        title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                         showConfirmButton: false,
                         timer: 1500,
                         customClass: {

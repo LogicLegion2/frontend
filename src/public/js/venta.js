@@ -9,11 +9,13 @@ document.getElementById('form-comprar-producto').addEventListener('submit', asyn
     const totalGlobal = localStorage.getItem('totalGlobal');
     const id = sessionStorage.getItem('id');
     const urlLogic = sessionStorage.getItem("urlLogic") + "/ventas/compra";
+    const token = sessionStorage.getItem('token');
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, productos, totalGlobal, metodoPago, metodoEntrega, direccion })
         });
@@ -35,7 +37,18 @@ document.getElementById('form-comprar-producto').addEventListener('submit', asyn
                 window.location.href = `/cliente/menu`;
             }, 1500);
         } else {
-            console.error('Error en la compra');
+            Swal.fire({
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+            setTimeout(() => {
+                window.location.href = `/cliente/carrito`;
+            }, 1500);
         }
     } catch (error) {
         console.error('Error:', error);

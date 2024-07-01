@@ -90,7 +90,7 @@ const cerrarSesion = async () => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": token  // Incluir el token en los headers
+            "x-access-token": token 
         }
     };
 
