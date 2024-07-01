@@ -30,10 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         try {
+            const token = sessionStorage.getItem("token");
             const response = await fetch(sessionStorage.getItem("urlLogic") + '/productos/editar', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "x-access-token": token
                 },
                 body: JSON.stringify(formData)
             });
@@ -54,14 +56,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 1500);
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Intentalo de nuevo más tarde' + "</h5>",
+                    icon: 'warning',
+                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                     showConfirmButton: false,
                     timer: 1500,
                     customClass: {
                         popup: 'bg-alert',
                     }
                 });
+                setTimeout(() => {
+                    window.location.href = `/admin/producto`;
+                }, 1500);
             }
         } catch (error) {
             Swal.fire({

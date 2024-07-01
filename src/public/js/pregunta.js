@@ -64,8 +64,8 @@ async function eliminarPregunta() {
                     }, 1500);
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Intentalo de nuevo más tarde' + "</h5>",
+                        icon: 'warning',
+                        title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                         showConfirmButton: false,
                         timer: 1500,
                         customClass: {

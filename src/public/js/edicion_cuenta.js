@@ -5,13 +5,15 @@ function toggleEdit(field) {
 
 async function cambiarNombre(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token")
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/nombre/${id}`;
     const nombre = event.target.nombre.value;
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, nombre })
         });
@@ -31,13 +33,12 @@ async function cambiarNombre(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar el nombre` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -58,13 +59,15 @@ async function cambiarNombre(event, id) {
 
 async function cambiarTelefono(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token")
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/telefono/${id}`;
     const telefono = event.target.telefono.value;
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, telefono })
         });
@@ -84,13 +87,12 @@ async function cambiarTelefono(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar el télefono` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -111,13 +113,15 @@ async function cambiarTelefono(event, id) {
 
 async function cambiarCorreo(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token")
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/correo/${id}`;
     const correo = event.target.correo.value;
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, correo })
         });
@@ -137,13 +141,12 @@ async function cambiarCorreo(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar el correo` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -164,6 +167,7 @@ async function cambiarCorreo(event, id) {
 
 async function cambiarFoto(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token")
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/foto/${id}`;
     const formData = new FormData();
     const foto = event.target.foto.files[0];
@@ -190,13 +194,12 @@ async function cambiarFoto(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar la foto de perfil` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -217,6 +220,7 @@ async function cambiarFoto(event, id) {
 
 async function cambiarContrasena(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token")
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/contrasena/${id}`;
     const form = event.target;
     const contrasena = form.contrasena.value;
@@ -240,7 +244,8 @@ async function cambiarContrasena(event, id) {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, contrasena, contrasenaNueva })
         });
@@ -260,10 +265,9 @@ async function cambiarContrasena(event, id) {
                 window.location.reload();
             }, 1500);
         } else {
-            const errorData = await response.json();
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Intentalo de nuevo más tarde' + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {

@@ -37,7 +37,7 @@ const loguear = async () => {
                 icon: 'warning',
                 title: `<h5 style='color:white; font-family: "Aleo", serif;'>${data.message}</h5>`,
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 10000,
                 customClass: {
                     popup: 'bg-alert',
                     content: 'text-alert'
@@ -90,7 +90,7 @@ const cerrarSesion = async () => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": token  // Incluir el token en los headers
+            "x-access-token": token 
         }
     };
 

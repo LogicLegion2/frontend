@@ -18,12 +18,14 @@ async function eliminarUsuario() {
         }
     }).then(async (result) => {
         if (result.isConfirmed) {
+            const token = sessionStorage.getItem("token");
             const urlLogic = sessionStorage.getItem("urlLogic") + "/usuarios/desactivar";
             if (id) {
                 const respuesta = await fetch(urlLogic, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "x-access-token": token
                     },
                     body: JSON.stringify({ id: id })
                 });
@@ -44,8 +46,8 @@ async function eliminarUsuario() {
                     }, 1500);
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Intentalo de nuevo más tarde' + "</h5>",
+                        icon: 'warning',
+                        title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                         showConfirmButton: false,
                         timer: 1500,
                         customClass: {
