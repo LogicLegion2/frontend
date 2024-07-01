@@ -3,6 +3,7 @@ function seleccionarPregunta(id) {
 }
 function redireccionarEditar() {
     const id = localStorage.getItem('preguntaSeleccionada');
+
     if (id) {
         window.location.href = `/admin/pregunta/editar?id=${id}`;
     } else {
@@ -35,12 +36,14 @@ async function eliminarPregunta() {
         }
     }).then(async (result) => {
         if (result.isConfirmed) {
+            const token = sessionStorage.getItem("token")
             const urlLogic = sessionStorage.getItem("urlLogic") + "/preguntas/desactivar";
-            if (id) {
+            if (id) { 
                 const respuesta = await fetch(urlLogic, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "x-access-token": token
                     },
                     body: JSON.stringify({ id: id })
                 });

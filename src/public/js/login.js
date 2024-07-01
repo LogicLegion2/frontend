@@ -48,7 +48,7 @@ const loguear = async () => {
             sessionStorage.setItem("id", data.id);
             sessionStorage.setItem("rol", data.rol);
             document.cookie = `id=${data.id}; path=/`;
-
+            document.cookie = `token=${data.token}; path=/`;
             switch (data.rol) {
                 case 'administrador':
                     window.location.href = "/admin/home";
@@ -104,6 +104,7 @@ const cerrarSesion = async () => {
             sessionStorage.removeItem("id");
             sessionStorage.removeItem("rol");
             document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
             // Redireccionar al login
             window.location.href = "/";

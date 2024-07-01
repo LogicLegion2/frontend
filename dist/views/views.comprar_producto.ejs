@@ -86,20 +86,18 @@
     <div class="col-11 container">
       <div class="justify-content-center pt-4 d-flex">
         <div class="col-6">
-          <form>
-            <select id="ubicacion" class="mt-4 border-0 text-center form-select">
-              <!-- <option disabled selected>Tarjeta de crédito</option> -->
-              <option>Tarjeta de crédito</option>
-              <option>Contra entrega</option>
-            </select>
-            <input type="text" id="numero_tarjeta" class="text-white mt-4 text-center border-0 form-control"
-              placeholder="Ingresa el número de tarjeta">
-            <select id="ubicacion" class="mt-4 text-center border-0 form-select">
+          <form id="form-comprar-producto">
+            <select id="metodoEntrega" class="mt-4 text-center border-0 form-select" required>
               <!-- <option disabled selected>Domicilio</option> -->
               <option>Domicilio</option>
               <option>Recoger en tienda</option>
             </select>
-            <input type="text" id="numero_tarjeta" class="text-white mt-4 text-center border-0 form-control"
+            <select id="metodoPago" class="mt-4 border-0 text-center form-select" required>
+              <!-- <option disabled selected>Tarjeta de crédito</option> -->
+              <option>Al recoger pedido</option>
+              <option>Contra entrega</option>
+            </select>
+            <input type="text" id="direccion" class="text-white mt-4 text-center border-0 form-control"
               placeholder="Ingresa Dirección">
             <button type="submit" class="mt-5 fw-bold btn fs-5 w-100 btn-color text-white">Realizar Compra</button>
           </form>
@@ -113,6 +111,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/venta.js"></script>
 </body>
 
 </html>
