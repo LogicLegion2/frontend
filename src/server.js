@@ -24,8 +24,8 @@ server.use(express.static(path.join(__dirname + "/public")));
 
 server.use("/", ruta);
 
-// server.use("/", (req,res)=>{
-//     res.render("archivoDeError")
-// });
+server.use("/", (req,res)=>{
+    res.render("views.error.ejs")
+});
 
 export default server;
