@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("formAgregarProducto").addEventListener("submit", async (e) => {
-        e.preventDefault(); // Evita que el formulario se envíe automáticamente
+        e.preventDefault();
 
         // Captura los valores del formulario
         const nombre = document.getElementById("agregar_nombre").value;
@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const precio = document.getElementById("agregar_precio").value;
         const cantidad = document.getElementById("agregar_cantidad").value;
         const foto = document.getElementById("agregar_imagen").files[0]; // Captura el archivo seleccionado
-
         // Verifica si todos los campos están llenos
         if (!nombre || !descripcion || !precio || !cantidad || !foto) {
             Swal.fire({
@@ -22,20 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             return; 
         }
-        
-        const formData = new FormData();
-        formData.append("nombre", nombre);
-        formData.append("descripcion", descripcion);
-        formData.append("precio", precio);
-        formData.append("cantidad", cantidad);
-        formData.append("foto", foto);
-
+        const token = sessionStorage.getItem('token')
+        const options = {
+            method: 'POST',
+            headers:{
+                "content-Type": "application/json",
+                "x-access-token": token
+            },
+            body:JSON.stringify({
+                nombre: nombre,
+                descripcion: descripcion,
+                cantidad: cantidad,
+                precio: precio,
+                foto: foto
+            })
+        };
+        console.log({"OPTIONS":options});
         try {
-            // Enviar los datos al servidor
-            const response = await fetch(sessionStorage.getItem("urlLogic") + '/productos/crear', {
-                method: 'POST',
-                body: formData
-            });
+            const response = await fetch(sessionStorage.getItem("urlLogic") + '/productos/crear', options);
 
             if (!response.ok) {
                 const errorMessage = await response.text(); // Obtener el mensaje de error del servidor
@@ -56,8 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Limpiar el formulario después de enviar los datos
-            document.getElementById("formAgregarProducto").reset();
+            window.location.href = '/admin/producto'
 
         } catch (error) {
             console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch

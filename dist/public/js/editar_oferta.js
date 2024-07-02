@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const id = localStorage.getItem('ofertaSeleccionada');
-    console.log(id);
     if (id) {
         const urlOferta = sessionStorage.getItem("urlLogic") + `/ofertas/obtener/${id}`;
         const urlProductos = sessionStorage.getItem("urlLogic") + `/productos`;

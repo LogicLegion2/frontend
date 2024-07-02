@@ -1,57 +1,50 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const urlUbicaciones = sessionStorage.getItem("urlLogic") + `/ubicaciones`;
-    const urlBarberos = sessionStorage.getItem("urlLogic") + `/barberos`;
-    const urlHorarios = sessionStorage.getItem("urlLogic") + `/horarios`;
+    const urlBarberos = sessionStorage.getItem("urlLogic") + `/barberos/admin`;
     const urlServicios = sessionStorage.getItem("urlLogic") + `/servicios`;
 
     try {
         // Realizar peticiones al servidor para obtener los datos
-        const [ubicacionesResponse, barberosResponse, horariosResponse, serviciosResponse] = await Promise.all([
+        const [ubicacionesResponse, barberosResponse, serviciosResponse] = await Promise.all([
             fetch(urlUbicaciones),
             fetch(urlBarberos),
-            fetch(urlHorarios),
             fetch(urlServicios)
         ]);
-
         // Verificar que todas las respuestas sean exitosas
-        if (!ubicacionesResponse.ok || !barberosResponse.ok || !horariosResponse.ok || !serviciosResponse.ok) {
-            throw new Error('Error al obtener datos del servidor');
-        }
+        if (ubicacionesResponse.ok || barberosResponse.ok || serviciosResponse.ok) {
 
-        // Convertir las respuestas a formato JSON
-        const ubicacionesData = await ubicacionesResponse.json();
-        const barberosData = await barberosResponse.json();
-        const horariosData = await horariosResponse.json();
-        const serviciosData = await serviciosResponse.json();
+            const ubicacionesData = await ubicacionesResponse.json();
+            const barberosData = await barberosResponse.json();
+            const serviciosData = await serviciosResponse.json();
 
-        // Función para crear opciones en un select a partir de un arreglo de datos
-        function populateSelect(selectElement, dataArray) {
-            selectElement.innerHTML = ''; // Limpiar select antes de agregar nuevas opciones
-            const defaultOption = document.createElement('option');
-            defaultOption.disabled = true;
-            defaultOption.selected = true;
-            defaultOption.textContent = 'Seleccione opción';
-            selectElement.appendChild(defaultOption);
+            const ubicacionesSelect = document.getElementById('ubicacion');
+            const barberosSelect = document.getElementById('barbero');
+            const serviciosSelect = document.getElementById('servicio');
 
-            dataArray.forEach(item => {
-                const option = document.createElement('option');
-                option.textContent = item.nombre; // Ajustar según la estructura de tus datos
-                option.value = item.id; // Ajustar según la estructura de tus datos
-                selectElement.appendChild(option);
+            // Llenar el select de ubicaciones
+            ubicacionesData.ubicaciones.forEach(ubicacion => {
+                const option1 = document.createElement('option');
+                option1.value = ubicacion.idUbicacion;
+                option1.text = ubicacion.titulo;
+                ubicacionesSelect.appendChild(option1);
+            });
+
+            // Llenar el select de barberos
+            barberosData.barberos.forEach(barbero => {
+                const option2 = document.createElement('option');
+                option2.value = barbero.id;
+                option2.text = barbero.barbero;
+                barberosSelect.appendChild(option2);
+            });
+
+            // Llenar el select de servicios
+            serviciosData.servicios.forEach(servicio => {
+                const option3 = document.createElement('option');
+                option3.value = servicio.idServicio;
+                option3.text = servicio.tipoServicio;
+                serviciosSelect.appendChild(option3);
             });
         }
-
-        // Obtener referencias a los elementos select del formulario
-        const ubicacionSelect = document.getElementById('ubicacion');
-        const barberoSelect = document.getElementById('barbero');
-        const horarioSelect = document.getElementById('horario');
-        const servicioSelect = document.getElementById('servicio');
-
-        // Llenar los select con los datos obtenidos del servidor
-        populateSelect(ubicacionSelect, ubicacionesData);
-        populateSelect(barberoSelect, barberosData);
-        populateSelect(horarioSelect, horariosData);
-        populateSelect(servicioSelect, serviciosData);
 
     } catch (error) {
         console.error('Error al cargar datos del servidor:', error);
@@ -72,18 +65,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
 
         // Obtener valores del formulario
+        const id = sessionStorage.getItem('id')
         const ubicacion = document.getElementById('ubicacion').value;
         const barbero = document.getElementById('barbero').value;
         const fecha = document.getElementById('fecha').value;
-        const horario = document.getElementById('horario').value;
+        const hora = document.getElementById('horario').value;
         const servicio = document.getElementById('servicio').value;
-        const notas = document.getElementById('notas').value;
+        const comentario = document.getElementById('notas').value;
 
         // Validación básica (puedes agregar más validaciones según tus requerimientos)
-        if (!ubicacion || !barbero || !fecha || !horario || !servicio) {
+        if (!ubicacion || !barbero || !fecha || !hora || !servicio) {
             Swal.fire({
                 icon: 'error',
-                title: 'Todos los campos son obligatorios',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Todos los campos son obligatorios' + "</h5>",
                 showConfirmButton: true,
                 customClass: {
                     popup: 'bg-alert',
@@ -95,12 +89,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Ejemplo de envío de datos al servidor para agregar una reservación (adaptar según tu backend)
         try {
             const formData = {
+                id,
                 ubicacion,
                 barbero,
                 fecha,
-                horario,
+                hora,
                 servicio,
-                notas
+                comentario
             };
 
             const token = sessionStorage.getItem("token");
@@ -116,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Reservación realizada exitosamente',
+                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Reserva realizada exitosamente' + "</h5>",
                     showConfirmButton: false,
                     timer: 1500,
                     customClass: {
@@ -126,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
                 // Redirigir a otra página u hacer alguna acción adicional
                 setTimeout(() => {
-                    window.location.href = `/admin/reservacion`;
+                    window.location.href = `/admin/menu`;
                 }, 1500);
             } else {
                 // Mostrar mensaje de error si falla el envío

@@ -31,25 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     popup: 'bg-alert',
                 }
             });
-            return; // Sale de la función si el correo no es válido
+            return; 
         }
 
-        const datosUsuario = {
-            nombre: nombre,
-            telefono: telefono,
-            correo: correo,
-            contrasena: contrasena,
-        };
+        const token = sessionStorage.getItem("token");
+        const options = {
+            method: "POST",
+            headers: {
+                "content-Type": "application/json",
+                "x-access-token": token
+            },
+            body: JSON.stringify({
+                nombre: nombre,
+                telefono: telefono,
+                correo: correo,
+                contrasena: contrasena
+            })
+        }
 
         try {
-            // Enviar los datos al servidor
-            const response = await fetch(`${sessionStorage.getItem("urlLogic")}/usuarios/registro`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(datosUsuario)
-            });
+            const response = await fetch(`${sessionStorage.getItem("urlLogic")}/usuarios/registro`,options);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -68,10 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     content: 'text-alert'
                 }
             });
-
-            // Opcional: Redireccionar después de un tiempo
             setTimeout(() => {
-                window.location.href = `${sessionStorage.getItem("urlLogic")}/usuarios/login`; // Cambia por la ruta deseada
+                window.location.href = `/`; 
             }, 1500);
 
         } catch (error) {

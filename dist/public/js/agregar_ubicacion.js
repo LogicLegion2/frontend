@@ -62,9 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     content: 'text-alert'
                 }
             });
-
-            // Opcional: Recargar la página después de agregar la ubicación
-            // location.reload();
+            window.location.href = "/admin/ubicacion"
 
         } catch (error) {
             console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch

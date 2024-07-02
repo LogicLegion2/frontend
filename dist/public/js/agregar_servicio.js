@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             return; // Sale de la función si hay algún campo vacío
         }
-
         const token = sessionStorage.getItem("token");
         const options = {
             method: "POST",

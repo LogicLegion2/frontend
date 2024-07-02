@@ -22,58 +22,62 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
         return; // Sale de la función si hay algún campo vacío
     }
 
-    // Objeto con los datos del barbero
-    const datosBarbero = {
-        nombre: nombre,
-        correo: correo,
-        contrasena: contrasena,
-        telefono: telefono,
-        descripcion: descripcion,
-    };
+    const token = sessionStorage.getItem("token");
+    const options = {
+        method: "POST",
+        headers: {
+            "content-Type": "application/json",
+            "x-access-token": token
+        },
+        body: JSON.stringify({
+            nombre: nombre,
+            correo: correo,
+            contrasena: contrasena,
+            telefono: telefono,
+            descripcion: descripcion,
+        })
+    }
 
     // Enviar los datos al servidor
-    fetch('http://localhost:3000/usuarios/barbero', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(datosBarbero)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json(); // Parsea la respuesta a JSON
-    })
-    .then(data => {
-        // Verifica si la respuesta está vacía antes de intentar analizarla como JSON
-        if (data) {
-            console.log("Barbero agregado:", data); // Muestra en consola la respuesta del servidor
+    fetch(sessionStorage.getItem("urlLogic") + '/usuarios/barbero', options)
+
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // Parsea la respuesta a JSON
+        })
+        .then(data => {
+            // Verifica si la respuesta está vacía antes de intentar analizarla como JSON
+            if (data) {
+                console.log("Barbero agregado:", data); // Muestra en consola la respuesta del servidor
+                Swal.fire({
+                    icon: 'success',
+                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Barbero registrado exitosamente</h5>",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'bg-alert',
+                        content: 'text-alert'
+                    }
+                });
+                setTimeout(() => {
+                    window.location.href = "/admin/usuario"
+                }, 1500);
+            } else {
+                console.error("Fetch error: Respuesta vacía o no válida");
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
             Swal.fire({
-                icon: 'success',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Barbero registrado exitosamente</h5>",
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar barbero</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
-            // location.reload(); // Recarga la página después de agregar el barbero (opcional)
-        } else {
-            console.error("Fetch error: Respuesta vacía o no válida");
-        }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
-        Swal.fire({
-            icon: 'error',
-            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar barbero</h5>",
-            showConfirmButton: false,
-            timer: 1500,
-            customClass: {
-                popup: 'bg-alert',
-            }
         });
-    });
 });
