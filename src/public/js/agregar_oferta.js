@@ -74,9 +74,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             const token = sessionStorage.getItem("token");
-            if (!token) {
-                throw new Error('No token found in sessionStorage');
-            }
 
             const response = await fetch(sessionStorage.getItem("urlLogic") + `/ofertas/crear`, {
                 method: 'POST',
