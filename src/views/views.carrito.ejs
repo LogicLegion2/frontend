@@ -135,6 +135,10 @@
                                                     readonly>
                                             </div>
                                         </div>
+                                        <div class="d-flex h-100 align-items-top">
+                                            <button class="btn-eliminar p-1 btn h-25" onclick="eliminarProducto('<%= producto.idProducto %>')"><img
+                                                src="/img/x.png" alt="" class="img-eliminar"></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -166,6 +170,7 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
     <script src="/js/compra.js"></script>
+    <script src="/js/prod_carrito.js"></script>
     <script>
         function aumentarValor(idProducto) {
             let unidades = parseInt(document.getElementById(`unidades-${idProducto}`).value);

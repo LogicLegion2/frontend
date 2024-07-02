@@ -1,59 +1,90 @@
-document.getElementById("registrarCliente").addEventListener("click", (e) => {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("registrarCliente").addEventListener("click", async (e) => {
+        e.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const telefono = document.getElementById("telefono").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+        const nombre = document.getElementById("nombre").value;
+        const telefono = document.getElementById("telefono").value;
+        const correo = document.getElementById("correo").value;
+        const contrasena = document.getElementById("contrasena").value;
 
-    const datosUsuario = {
-        nombre: name,
-        telefono: telefono,
-        correo: email,
-        contrasena: password,
-    };
-
-    fetch(`http://localhost:3000/usuarios/registro`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(datosUsuario)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!nombre || !telefono || !correo || !contrasena) {
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Todos los campos son obligatorios</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+            return; // Sale de la función si hay algún campo vacío
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Usuario agregado:", data);
-        // Aquí podrías mostrar una alerta o realizar alguna acción adicional después de agregar el usuario
-        Swal.fire({
-            icon: 'success',
-            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Usuario registrado exitosamente</h5>",
-            showConfirmButton: false,
-            timer: 1500,
-            customClass: {
-                popup: 'bg-alert',
-                content: 'text-alert'
+
+        // Validar que el correo contenga un "@"
+        if (!correo.includes("@")) {
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>El correo debe contener un @</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+            return; // Sale de la función si el correo no es válido
+        }
+
+        const datosUsuario = {
+            nombre: nombre,
+            telefono: telefono,
+            correo: correo,
+            contrasena: contrasena,
+        };
+
+        try {
+            // Enviar los datos al servidor
+            const response = await fetch(`${sessionStorage.getItem("urlLogic")}/usuarios/registro`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datosUsuario)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-        });
-        // Opcional: Redireccionar después de un tiempo
-        setTimeout(() => {
-            window.location.href = 'http://localhost:3800/cliente/home'; // Cambia por la ruta deseada
-        }, 1500);
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-        Swal.fire({
-            icon: 'error',
-            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar usuario</h5>",
-            showConfirmButton: false,
-            timer: 1500,
-            customClass: {
-                popup: 'bg-alert',
-            }
-        });
+
+            const data = await response.json();
+            console.log("Usuario registrado:", data);
+
+            Swal.fire({
+                icon: 'success',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Usuario registrado exitosamente</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                    content: 'text-alert'
+                }
+            });
+
+            // Opcional: Redireccionar después de un tiempo
+            setTimeout(() => {
+                window.location.href = `${sessionStorage.getItem("urlLogic")}/usuarios/login`; // Cambia por la ruta deseada
+            }, 1500);
+
+        } catch (error) {
+            console.error("Fetch error:", error);
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar usuario</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+        }
     });
 });

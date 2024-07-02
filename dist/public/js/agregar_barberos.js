@@ -7,8 +7,20 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
     const correo = document.getElementById("correo").value;
     const contrasena = document.getElementById("contrasena").value;
     const descripcion = document.getElementById("descripcion").value;
-    const fotoPerfil = document.getElementById("fotoPerfil").value;
 
+    // Verifica si todos los campos están llenos
+    if (!nombre || !telefono || !correo || !contrasena || !descripcion) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Todos los campos son obligatorios</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return; // Sale de la función si hay algún campo vacío
+    }
 
     // Objeto con los datos del barbero
     const datosBarbero = {
@@ -17,7 +29,6 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
         contrasena: contrasena,
         telefono: telefono,
         descripcion: descripcion,
-        fotoPerfil: fotoPerfil
     };
 
     // Enviar los datos al servidor
@@ -38,6 +49,16 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
         // Verifica si la respuesta está vacía antes de intentar analizarla como JSON
         if (data) {
             console.log("Barbero agregado:", data); // Muestra en consola la respuesta del servidor
+            Swal.fire({
+                icon: 'success',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Barbero registrado exitosamente</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                    content: 'text-alert'
+                }
+            });
             // location.reload(); // Recarga la página después de agregar el barbero (opcional)
         } else {
             console.error("Fetch error: Respuesta vacía o no válida");
@@ -45,5 +66,14 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
     })
     .catch(error => {
         console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar barbero</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
     });
 });
