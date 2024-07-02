@@ -22,24 +22,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return; // Sale de la función si hay algún campo vacío
         }
 
-        // Crear un objeto FormData para enviar datos binarios
-        const formData = new FormData();
-        formData.append("titulo", titulo);
-        formData.append("ubicacion", ubicacion);
-        formData.append("descripcion", descripcion);
-        formData.append("foto", foto);
+        // Obtener token de sessionStorage
+        const token = sessionStorage.getItem("token");
+
+        // Crear un objeto JSON con los datos a enviar
+        const dataToSend = {
+            titulo: titulo,
+            ubicacion: ubicacion,
+            descripcion: descripcion,
+            foto: foto.name // Envía solo el nombre del archivo, ajustar según necesidad
+        };
 
         try {
-            // Obtener token de sessionStorage
-            const token = sessionStorage.getItem("token");
-
             // Enviar los datos al servidor
             const response = await fetch(sessionStorage.getItem("urlLogic") + '/ubicaciones/crear', {
                 method: 'POST',
                 headers: {
+                    "content-Type": "application/json",
                     "x-access-token": token
                 },
-                body: formData
+                body: JSON.stringify(dataToSend)
             });
 
             if (!response.ok) {
@@ -47,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`HTTP error! Status: ${response.status} - ${errorMessage}`);
             }
 
-            const data = await response.json(); // Parsea la respuesta a JSON
-            console.log("Ubicación registrada:", data); // Muestra en consola la respuesta del servidor
+            const responseData = await response.json(); // Parsea la respuesta a JSON
+            console.log("Ubicación registrada:", responseData); // Muestra en consola la respuesta del servidor
 
             Swal.fire({
                 icon: 'success',

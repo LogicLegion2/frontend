@@ -24,7 +24,8 @@ export const paginaPrincipalCliente = async (req, res) => {
             productos: data.productos,
             ofertas: data.ofertas,
             ubicaciones: data.ubicaciones,
-            preguntas: data.preguntas
+            preguntas: data.preguntas,
+            url:url
         });
     } catch (error) {
         console.error(error);

@@ -80,7 +80,7 @@
                                 <div class="opc ms-3 me-4">
                                     <a class="btn-barb">
                                         <div class="tarjeta tarjeta-sma card d-flex cursor-pointer align-items-center justify-content-around p-2 rounded-4 z-0">
-                                            <a class="btn-fav btn align-self-start position-absolute p-0">
+                                            <a class="btn-fav btn align-self-start position-absolute p-0" onclick="barberoFavorito(<%= barbero.id %>)">
                                                 <img src="/img/amor.png" alt="" class="icon-fav mt-menor">
                                             </a>
                                             <img src="data:image/jpeg;base64,<%= barbero.img64 %>" alt="" class="foto rounded-4 mb-2">
@@ -143,7 +143,7 @@
                             <% chunk.forEach(servicio => { %>
                             <div class="opc d-block ms-3 me-4">
                                 <div class="tarjeta tarjeta-med card d-flex align-items-center justify-content-around p-2 rounded-4 z-0">
-                                    <button class="btn-fav btn align-self-start position-absolute p-0">
+                                    <button class="btn-fav btn align-self-start position-absolute p-0" onclick="servicioFavorito(<%= servicio.idServicio %>)">
                                         <img src="/img/amor.png" alt="" class="icon-fav mt-menor-max">
                                     </button>
                                     <img src="data:image/jpeg;base64,<%= servicio.img64 %>" alt="" class="foto rounded-4 mb-2">
@@ -212,11 +212,11 @@
                                     <p class="desc fw-light mb-1 card-text text-break text-light text-center"><%= producto.descripcion %></p>
                                     <div
                                         class="cont-precio border-top align-items-center border-2 border-light w-100 d-flex flex-row card-text text-light text-center">
-                                        <button class="btn-fav btn">
+                                        <button class="btn-fav btn" onclick="productoFavorito(<%= producto.idProducto %>)">
                                             <img src="/img/amor.png" alt="" class="icon-favorito">
                                         </button>
                                         <p class="precio m-1 w-100 text-center">$<%= producto.precio %></p>
-                                        <button class="btn-car btn">
+                                        <button class="btn-car btn" onclick="agregarCarrito(<%= producto.idProducto %>)">
                                             <img src="/img/carrito-de-compras.png" alt="" class="icon-car">
                                         </button>
                                     </div>
@@ -277,7 +277,7 @@
                                     <p class="desc fw-light mb-1 card-text text-break text-light text-center"><%= oferta.descripcion %></p>
                                     <div
                                         class="cont-precio border-top align-items-center border-2 border-light w-100 d-flex flex-row card-text text-light text-center">
-                                        <button class="btn-fav btn">
+                                        <button class="btn-fav btn" onclick="ofertaFavorito(<%= oferta.idOferta %>)">
                                             <img src="/img/amor.png" alt="" class="icon-favorito">
                                         </button>
                                         <p class="precio m-1 w-100 text-center">$<%= oferta.precio %></p>
@@ -393,7 +393,7 @@
             <a href="" class="text-cont text-light text-center mb-4 fs-5"><img class="icono-cont me-2"
                     src="/img/whatsapp.png" alt="">320-522-6481</a>
             <div class="w-100 d-flex mt-3">
-                <a href="" class="btn btn-color pt-2 pb-2 rounded-4 p-2 ms-5 me-3 text-white w-50 h-100">Documentación API</a>
+                <a href="<%= url %>/doc" class="btn btn-color pt-2 pb-2 rounded-4 p-2 ms-5 me-3 text-white w-50 h-100">Documentación API</a>
                 <a href="/cliente/docs" class="btn btn-color pt-2 pb-2 rounded-4 p-2 ms-5 me-3 text-white w-50 h-100">Documentación</a>
             </div>
         </section>
@@ -405,6 +405,9 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/favorito.js"></script>
+    <script src="/js/agregar_carrito.js"></script>
 </body>
 
 </html>
