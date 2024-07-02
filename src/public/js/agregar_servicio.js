@@ -22,19 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
             return; // Sale de la función si hay algún campo vacío
         }
 
-        // Crea un objeto FormData para manejar la subida del archivo
-        const formData = new FormData();
-        formData.append("tipoServicio", tipoServicio);
-        formData.append("descripcion", descripcion);
-        formData.append("precio", precio);
-        formData.append("fotoServicio", fotoServicio);
+        const token = sessionStorage.getItem("token");
+        const options = {
+            method: "POST",
+            headers:{
+                "content-Type": "application/json",
+                "x-access-token": token
+            },
+            body:JSON.stringify({
+                tipoServicio: tipoServicio,
+                descripcion: descripcion,
+                precio: precio,
+                fotoServicio: fotoServicio
+            })
+        }
 
         try {
             // Enviar los datos al servidor
-            const response = await fetch(sessionStorage.getItem("urlLogic") + '/servicios/crear', {
-                method: 'POST',
-                body: formData
-            });
+            const response = await fetch(sessionStorage.getItem("urlLogic") + '/servicios/crear', options);
 
             if (!response.ok) {
                 const errorMessage = await response.text(); // Obtener el mensaje de error del servidor
