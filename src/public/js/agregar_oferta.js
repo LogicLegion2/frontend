@@ -1,88 +1,121 @@
-document.getElementById("agregarOferta").addEventListener("click", async (e) => {
-    e.preventDefault(); // Evita que el formulario se envíe automáticamente
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlProductos = sessionStorage.getItem("urlLogic") + `/productos`;
 
-    // Obtener la URL de la oferta y productos desde sessionStorage 
-// dafdsfdsdfsg
+    try {
+        const responseProductos = await fetch(urlProductos);
 
-        const urlProductos = sessionStorage.getItem("urlLogic") + `/productos`;
+        if (!responseProductos.ok) {
+            throw new Error(`Error al obtener productos: ${responseProductos.status} ${responseProductos.statusText}`);
+        }
+
+        const productosData = await responseProductos.json();
+
+        const productosSelect1 = document.getElementById('producto1');
+        const productosSelect2 = document.getElementById('producto2');
+
+        productosData.productos.forEach(producto => {
+            const option1 = document.createElement('option');
+            option1.value = producto.idProducto;
+            option1.text = producto.producto;
+            productosSelect1.appendChild(option1);
+
+            const option2 = document.createElement('option');
+            option2.value = producto.idProducto;
+            option2.text = producto.producto;
+            productosSelect2.appendChild(option2);
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Error al obtener productos' + "</h5>",
+            text: error.message,
+            showConfirmButton: true,
+            customClass: {
+                popup: 'bg-alert',
+                content: 'text-alert'
+            }
+        });
+    }
+
+    document.getElementById('addForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const producto1 = document.getElementById('producto1').value;
+        const producto2 = document.getElementById('producto2').value;
+        const descripcion = document.getElementById('descripcion').value;
+        const precio = document.getElementById('precio').value;
+        const formFile = document.getElementById('formFile').files[0];
+
+        console.log('Producto 1:', producto1);
+        console.log('Producto 2:', producto2);
+        console.log('Descripción:', descripcion);
+        console.log('Precio:', precio);
+        console.log('Archivo:', formFile);
+
+        if (!producto1 || !producto2 || !descripcion || !precio || !formFile) {
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Todos los campos son obligatorios' + "</h5>",
+                showConfirmButton: true,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('producto1', producto1);
+        formData.append('producto2', producto2);
+        formData.append('descripcion', descripcion);
+        formData.append('precio', precio);
+        formData.append('formFile', formFile);
 
         try {
-            const [ responseProductos] = await Promise.all([
-                fetch(urlProductos)
-            ]);
-
-            if ( responseProductos.ok) {
-                const productosData = await responseProductos.json();
-
-
-                const productosSelect1 = document.getElementById('producto1');
-                const productosSelect2 = document.getElementById('producto2');
-
-                productosData.productos.forEach(producto => {
-                    const option1 = document.createElement('option');
-                    option1.value = producto.idProducto;
-                    option1.text = producto.producto;
-                    if (producto.idProducto === ofertaData.producto1) {
-                        option1.selected = true;
-                    }
-                    productosSelect1.appendChild(option1);
-
-                    const option2 = document.createElement('option');
-                    option2.value = producto.idProducto;
-                    option2.text = producto.producto;
-                    if (producto.idProducto === ofertaData.producto2) {
-                        option2.selected = true;
-                    }
-                    productosSelect2.appendChild(option2);
-                });
-                   
-
-            // Capturar valores del formulario
-            const producto1 = document.getElementById("producto1").value;
-            const producto2 = document.getElementById("producto2").value;
-            const descripcion = document.getElementById("descripcion").value;
-            const precio = document.getElementById("precio").value;
-            const foto = document.getElementById("fotoOferta").value;
-
-            // Objeto con los datos de la oferta a crear
-            const datosOferta = {
-                producto1: producto1,
-                producto2: producto2,
-                descripcion: descripcion,
-                precio: precio,
-                foto: foto
-            };
-
-            // Enviar datos al servidor para crear la oferta
-            try {
-                const response = await fetch('http://localhost:3000/ofertas/crear', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(datosOferta)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                if (data) {
-                    console.log("Oferta agregada:", data); // Mostrar respuesta del servidor en consola
-                    // Puedes realizar acciones adicionales aquí, como recargar la página
-                    // location.reload();
-                } else {
-                    console.error("Fetch error: Respuesta vacía o no válida");
-                }
-            } catch (error) {
-                console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
+            const token = sessionStorage.getItem("token");
+            if (!token) {
+                throw new Error('No token found in sessionStorage');
             }
+
+            const response = await fetch(sessionStorage.getItem("urlLogic") + `/ofertas/crear`, {
+                method: 'POST',
+                headers: {
+                    "x-access-token": token
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const responseText = await response.text(); // Leer la respuesta como texto para depuración
+                throw new Error(`Error: ${response.status} ${response.statusText} - ${responseText}`);
+            }
+
+            const responseData = await response.json();
+            Swal.fire({
+                icon: 'success',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Oferta agregada exitosamente' + "</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                    content: 'text-alert'
+                }
+            });
+            setTimeout(() => {
+                window.location.href = `/admin/oferta`;
+            }, 1500);
+        } catch (error) {
+            console.error('Error al agregar la oferta:', error);
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Error al agregar la oferta' + "</h5>",
+                text: error.message,
+                showConfirmButton: true,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
         }
-    } catch (error) {
-        console.error("Fetch error:", error); // Manejo de errores si falla alguna de las peticiones fetch inicialmente
-    }
-})
-
-
-
+    });
+});
