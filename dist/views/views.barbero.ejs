@@ -216,7 +216,7 @@
                                             <img src="/img/amor.png" alt="" class="icon-favorito">
                                         </button>
                                         <p class="precio m-1 w-100 text-center">$<%= producto.precio %></p>
-                                        <button class="btn-car btn">
+                                        <button class="btn-car btn" onclick="agregarCarrito(<%= producto.idProducto %>)">
                                             <img src="/img/carrito-de-compras.png" alt="" class="icon-car">
                                         </button>
                                     </div>
@@ -407,6 +407,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/favorito.js"></script>
+    <script src="/js/agregar_carrito.js"></script>
 </body>
 
 </html>
