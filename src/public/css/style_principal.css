@@ -57,8 +57,17 @@ body {
     height: 405px;
 }
 
+.icon-car,
+.icon-favorito,
 .icon-fav {
     width: 20px;
+    transition: all 0.5s ease
+}
+
+.icon-car,
+.icon-fav:hover,
+.icon-favorito:hover{
+    transform: scale(1.1);
 }
 
 .foto {
@@ -192,11 +201,6 @@ a {
 .ofertas-c,
 .preguntas-c {
     background-color: #0a081f;
-}
-
-.icon-car,
-.icon-favorito {
-    width: 20px;
 }
 
 .cont-opc-menu {

@@ -37,7 +37,7 @@ const loguear = async () => {
                 icon: 'warning',
                 title: `<h5 style='color:white; font-family: "Aleo", serif;'>${data.message}</h5>`,
                 showConfirmButton: false,
-                timer: 10000,
+                timer: 30000,
                 customClass: {
                     popup: 'bg-alert',
                     content: 'text-alert'

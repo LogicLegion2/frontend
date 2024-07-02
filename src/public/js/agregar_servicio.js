@@ -60,7 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         popup: 'bg-alert',
                         content: 'text-alert'
                     }
-                });
+                });setTimeout(() => {
+                    window.location.href = `/admin/servicio`;
+                }, 1500);
 
                 // Opcional: Recargar la página después de agregar el servicio
                 // location.reload();
