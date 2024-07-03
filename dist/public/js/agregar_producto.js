@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const descripcion = document.getElementById("agregar_descripcion").value;
         const precio = document.getElementById("agregar_precio").value;
         const cantidad = document.getElementById("agregar_cantidad").value;
-        const foto = document.getElementById("agregar_imagen").files[0]; 
-        if (!nombre || !descripcion || !precio || !cantidad || !foto) {
+        const fotoProducto = document.getElementById("agregar_imagen").files[0];
+        if (!nombre || !descripcion || !precio || !cantidad || !fotoProducto) {
             Swal.fire({
                 icon: 'error',
                 title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Todos los campos son obligatorios</h5>",
@@ -17,48 +17,64 @@ document.addEventListener('DOMContentLoaded', () => {
                     popup: 'bg-alert',
                 }
             });
-            return; 
+            return;
         }
         const token = sessionStorage.getItem('token')
         const options = {
             method: 'POST',
-            headers:{
+            headers: {
                 "content-Type": "application/json",
                 "x-access-token": token
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 nombre: nombre,
                 descripcion: descripcion,
                 cantidad: cantidad,
                 precio: precio,
-                foto: foto
+                fotoProducto: fotoProducto
             })
         };
-        console.log({"OPTIONS":options});
+
         try {
             const response = await fetch(sessionStorage.getItem("urlLogic") + '/productos/crear', options);
 
             if (!response.ok) {
-                const errorMessage = await response.text(); 
+                const errorMessage = await response.text();
                 throw new Error(`HTTP error! Status: ${response.status} - ${errorMessage}`);
             }
 
-            const data = await response.json(); 
-            console.log("Producto agregado:", data); 
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                const data = await response.json();
+                console.log("Producto agregado:", data);
 
-            Swal.fire({
-                icon: 'success',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Producto agregado exitosamente</h5>",
-                showConfirmButton: false,
-                timer: 1500,
-                customClass: {
-                    popup: 'bg-alert',
-                    content: 'text-alert'
-                }
-            });
+                Swal.fire({
+                    icon: 'success',
+                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Producto agregado exitosamente</h5>",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'bg-alert',
+                        content: 'text-alert'
+                    }
+                }); setTimeout(() => {
+                    window.location.href = `/admin/producto`;
+                }, 1500);
+            } else {
+                const text = await response.text();
+                console.error("Respuesta no JSON:", text);
 
-            window.location.href = '/admin/producto'
-
+                Swal.fire({
+                    icon: 'error',
+                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al agregar producto</h5>",
+                    text: "Error en la respuesta del servidor",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'bg-alert',
+                    }
+                });
+            }
         } catch (error) {
             Swal.fire({
                 icon: 'error',

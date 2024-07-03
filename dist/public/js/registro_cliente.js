@@ -49,12 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch(`${sessionStorage.getItem("urlLogic")}/usuarios/registro`,options);
+            const response = await fetch('https://backend-barberia-tsn6.onrender.com/usuarios/registro', options);
 
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                const errorMessage = await response.text();
+                throw new Error(`HTTP error! Status: ${response.status} - ${errorMessage}`);
             }
 
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
             const data = await response.json();
             console.log("Usuario registrado:", data);
 
@@ -71,6 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 window.location.href = `/`; 
             }, 1500);
+        } else {
+            const text = await response.text();
+            console.error("Respuesta no JSON:", text);
+
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al agregar servicio</h5>",
+                text: "Error en la respuesta del servidor",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+        }
 
         } catch (error) {
             console.error("Fetch error:", error);
