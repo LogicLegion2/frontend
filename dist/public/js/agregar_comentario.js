@@ -2,19 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("enviar").addEventListener("click", async (e) => {
         e.preventDefault();
 
-        // Captura los valores del formulario
         const comentario = document.getElementById("comentario").value;
 
-        // Id de usuario del sessionStorage
         const idUsuario = sessionStorage.getItem("id"); 
 
-        // Id del barbero seleccionado
         const idBarbero = sessionStorage.getItem("idBarbero"); 
 
-        // Obtener token de sessionStorage
         const token = sessionStorage.getItem("token");
         
-        // Objeto con los datos del comentario
         const datosComentario = {
             comentario: comentario,
             idUsuario: idUsuario,

@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('descripcion').value = data.descripcion;
             document.getElementById('precio').value = data.precio;
 
-            // Valores en los placeholders
             document.getElementById('nombre').setAttribute('placeholder', data.nombre);
             document.getElementById('descripcion').setAttribute('placeholder', data.descripcion);
             document.getElementById('precio').setAttribute('placeholder', data.precio);

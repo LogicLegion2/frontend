@@ -17,10 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     popup: 'bg-alert',
                 }
             });
-            return; // Sale de la función si hay algún campo vacío
+            return; 
         }
 
-        // Validar que el correo contenga un "@"
         if (!correo.includes("@")) {
             Swal.fire({
                 icon: 'error',

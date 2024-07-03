@@ -1,7 +1,6 @@
 document.getElementById("registrarUsuario").addEventListener("click", (e) => {
-    e.preventDefault(); // Evita que el formulario se envíe automáticamente
+    e.preventDefault(); 
 
-    // Captura los valores del formulario
     const nombre = document.getElementById("nombre").value;
     const telefono = document.getElementById("telefono").value;
     const correo = document.getElementById("correo").value;
@@ -24,7 +23,6 @@ document.getElementById("registrarUsuario").addEventListener("click", (e) => {
         })
     }
 
-    // Enviar los datos al servidor
     fetch(sessionStorage.getItem("urlLogic") + '/usuarios/registrar', options)
         .then(response => {
             if (!response.ok) {
@@ -53,6 +51,6 @@ document.getElementById("registrarUsuario").addEventListener("click", (e) => {
             }
         })
         .catch(error => {
-            console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
+            console.error("Fetch error:", error); 
         });
 });

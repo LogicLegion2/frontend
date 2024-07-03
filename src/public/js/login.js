@@ -99,17 +99,15 @@ const cerrarSesion = async () => {
         const data = await response.json();
 
         if (response.status === 200) {
-            // Limpiar datos de sesión
+
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("id");
             sessionStorage.removeItem("rol");
             document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-            // Redireccionar al login
             window.location.href = "/";
         } else {
-            // Manejar errores
             console.error("Error al cerrar sesión:", data.message);
         }
     } catch (err) {

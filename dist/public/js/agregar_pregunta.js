@@ -1,22 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("crearPreguntaForm").addEventListener("submit", async (e) => {
-        e.preventDefault(); // Evita que el formulario se envíe automáticamente
+        e.preventDefault();
 
-        // Captura los valores del formulario
         const pregunta = document.getElementById("pregunta").value;
         const respuesta = document.getElementById("respuesta").value;
 
-        // Objeto con los datos de la pregunta
         const datosPregunta = {
             pregunta: pregunta,
             respuesta: respuesta
         };
 
         try {
-            // Obtener token de sessionStorage
             const token = sessionStorage.getItem("token");
 
-            // Enviar los datos al servidor
             const response = await fetch(sessionStorage.getItem("urlLogic") + '/preguntas/crear', {
                 method: 'POST',
                 headers: {
@@ -30,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const data = await response.json(); // Parsea la respuesta a JSON
-            console.log("Pregunta agregada:", data); // Muestra en consola la respuesta del servidor
+            const data = await response.json(); 
+            console.log("Pregunta agregada:", data); 
 
             Swal.fire({
                 icon: 'success',
@@ -44,12 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Opcional: Recargar la página después de agregar la pregunta
-            // location.reload();
+            window.location.href = "/admin/pregunta"
 
         } catch (error) {
-            console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
-
+            console.error("Fetch error:", error); 
             Swal.fire({
                 icon: 'error',
                 title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al agregar pregunta</h5>",

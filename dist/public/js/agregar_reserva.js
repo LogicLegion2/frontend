@@ -4,13 +4,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlServicios = sessionStorage.getItem("urlLogic") + `/servicios`;
 
     try {
-        // Realizar peticiones al servidor para obtener los datos
         const [ubicacionesResponse, barberosResponse, serviciosResponse] = await Promise.all([
             fetch(urlUbicaciones),
             fetch(urlBarberos),
             fetch(urlServicios)
         ]);
-        // Verificar que todas las respuestas sean exitosas
         if (ubicacionesResponse.ok || barberosResponse.ok || serviciosResponse.ok) {
 
             const ubicacionesData = await ubicacionesResponse.json();
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const barberosSelect = document.getElementById('barbero');
             const serviciosSelect = document.getElementById('servicio');
 
-            // Llenar el select de ubicaciones
             ubicacionesData.ubicaciones.forEach(ubicacion => {
                 const option1 = document.createElement('option');
                 option1.value = ubicacion.idUbicacion;
@@ -29,7 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ubicacionesSelect.appendChild(option1);
             });
 
-            // Llenar el select de barberos
             barberosData.barberos.forEach(barbero => {
                 const option2 = document.createElement('option');
                 option2.value = barbero.id;
@@ -37,7 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 barberosSelect.appendChild(option2);
             });
 
-            // Llenar el select de servicios
             serviciosData.servicios.forEach(servicio => {
                 const option3 = document.createElement('option');
                 option3.value = servicio.idServicio;
@@ -48,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error('Error al cargar datos del servidor:', error);
-        // Manejo de errores según necesidades del proyecto
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -60,11 +54,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Manejar el envío del formulario de agregar
     document.getElementById('addForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Obtener valores del formulario
         const id = sessionStorage.getItem('id')
         const ubicacion = document.getElementById('ubicacion').value;
         const barbero = document.getElementById('barbero').value;
@@ -73,7 +65,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const servicio = document.getElementById('servicio').value;
         const comentario = document.getElementById('notas').value;
 
-        // Validación básica (puedes agregar más validaciones según tus requerimientos)
         if (!ubicacion || !barbero || !fecha || !hora || !servicio) {
             Swal.fire({
                 icon: 'error',
@@ -86,7 +77,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Ejemplo de envío de datos al servidor para agregar una reservación (adaptar según tu backend)
         try {
             const formData = {
                 id,
@@ -119,17 +109,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                         content: 'text-alert'
                     }
                 });
-                // Redirigir a otra página u hacer alguna acción adicional
                 setTimeout(() => {
-                    window.location.href = `/admin/menu`;
+                    window.location.href = `/cliente/menu`;
                 }, 1500);
             } else {
-                // Mostrar mensaje de error si falla el envío
                 throw new Error('Error al enviar la reservación');
             }
         } catch (error) {
             console.error('Error al enviar la reservación:', error);
-            // Mostrar mensaje de error al usuario
             Swal.fire({
                 icon: 'error',
                 title: 'Error',

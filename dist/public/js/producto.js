@@ -1,9 +1,7 @@
-// Toma el id del producto para redireccionarlo a editar o eliinar
 function seleccionarProducto(id) {
     localStorage.setItem('productoSeleccionado', id);
 }
 
-// Redirecciona el producto seleccionado al formulario para la edición
 function redireccionarEditar() {
     const id = localStorage.getItem('productoSeleccionado');
     if (id) {
@@ -22,7 +20,6 @@ function redireccionarEditar() {
     }
 }
 
-// Redirecciona el producto seleccionado para su eliminación
 async function eliminarProducto() {
     const id = localStorage.getItem('productoSeleccionado');
     Swal.fire({

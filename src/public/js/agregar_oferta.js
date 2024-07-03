@@ -45,15 +45,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const producto2 = document.getElementById('producto2').value;
         const descripcion = document.getElementById('descripcion').value;
         const precio = document.getElementById('precio').value;
-        const formFile = document.getElementById('formFile').files[0];
+        const foto = document.getElementById('formFile').files[0];
 
         console.log('Producto 1:', producto1);
         console.log('Producto 2:', producto2);
         console.log('Descripción:', descripcion);
         console.log('Precio:', precio);
-        console.log('Archivo:', formFile);
+        console.log('Archivo:', foto);
 
-        if (!producto1 || !producto2 || !descripcion || !precio || !formFile) {
+        if (!producto1 || !producto2 || !descripcion || !precio || !foto) {
             Swal.fire({
                 icon: 'error',
                 title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Todos los campos son obligatorios' + "</h5>",
@@ -65,23 +65,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('producto1', producto1);
-        formData.append('producto2', producto2);
-        formData.append('descripcion', descripcion);
-        formData.append('precio', precio);
-        formData.append('formFile', formFile);
+        const token = sessionStorage.getItem("token");
+        const options = {
+            method: "POST",
+            headers:{
+                "content-Type": "application/json",
+                "x-access-token": token
+            },
+            body:JSON.stringify({
+                producto1: producto1,
+                producto2: producto2,
+                descripcion: descripcion,
+                precio: precio,
+                foto: foto
+            })
+        }
 
         try {
-            const token = sessionStorage.getItem("token");
-
-            const response = await fetch(sessionStorage.getItem("urlLogic") + `/ofertas/crear`, {
-                method: 'POST',
-                headers: {
-                    "x-access-token": token
-                },
-                body: formData
-            });
+            const response = await fetch(sessionStorage.getItem("urlLogic") + '/ofertas/crear', options);
 
             if (!response.ok) {
                 const responseText = await response.text(); // Leer la respuesta como texto para depuración
@@ -107,7 +108,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             Swal.fire({
                 icon: 'error',
                 title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Error al agregar la oferta' + "</h5>",
-                text: error.message,
                 showConfirmButton: true,
                 customClass: {
                     popup: 'bg-alert',

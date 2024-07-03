@@ -1,14 +1,12 @@
 document.getElementById("registrarBarbero").addEventListener("click", (e) => {
-    e.preventDefault(); // Evita que el formulario se envíe automáticamente
+    e.preventDefault(); 
 
-    // Captura los valores del formulario
     const nombre = document.getElementById("nombre").value;
     const telefono = document.getElementById("telefono").value;
     const correo = document.getElementById("correo").value;
     const contrasena = document.getElementById("contrasena").value;
     const descripcion = document.getElementById("descripcion").value;
 
-    // Verifica si todos los campos están llenos
     if (!nombre || !telefono || !correo || !contrasena || !descripcion) {
         Swal.fire({
             icon: 'error',
@@ -19,7 +17,7 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
                 popup: 'bg-alert',
             }
         });
-        return; // Sale de la función si hay algún campo vacío
+        return; 
     }
 
     const token = sessionStorage.getItem("token");
@@ -38,19 +36,17 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
         })
     }
 
-    // Enviar los datos al servidor
     fetch(sessionStorage.getItem("urlLogic") + '/usuarios/barbero', options)
 
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            return response.json(); // Parsea la respuesta a JSON
+            return response.json(); 
         })
         .then(data => {
-            // Verifica si la respuesta está vacía antes de intentar analizarla como JSON
             if (data) {
-                console.log("Barbero agregado:", data); // Muestra en consola la respuesta del servidor
+                console.log("Barbero agregado:", data); 
                 Swal.fire({
                     icon: 'success',
                     title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Barbero registrado exitosamente</h5>",
@@ -69,7 +65,7 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
             }
         })
         .catch(error => {
-            console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
+            console.error("Fetch error:", error);
             Swal.fire({
                 icon: 'error',
                 title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar barbero</h5>",
