@@ -77,8 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/usuarios/registro', options);
-            // const response = await fetch('https://backend-barberia-tsn6.onrender.com/usuarios/registro', options);
+            const response = await fetch('https://backend-barberia-tsn6.onrender.com/usuarios/registro', options);
 
             if (!response.ok) {
                 const errorMessage = await response.text();
