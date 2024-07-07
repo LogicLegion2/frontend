@@ -17,20 +17,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     popup: 'bg-alert',
                 }
             });
-            return; 
+            return;
         }
 
         if (!correo.includes("@")) {
             Swal.fire({
                 icon: 'error',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>El correo debe contener un @</h5>",
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
                 }
             });
-            return; 
+            return;
+        }
+
+        const telefonoRegex = /^\d{10}$/;
+        if (!telefonoRegex.test(telefono)) {
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+            return;
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        if (!passwordRegex.test(contrasena)) {
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>La contraseña debe tener al menos 8 caracteres, incluyendo números, letras minúsculas y mayúsculas</h5>",
+                showConfirmButton: false,
+                timer: 4500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+            return;
         }
 
         const token = sessionStorage.getItem("token");
@@ -49,7 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('https://backend-barberia-tsn6.onrender.com/usuarios/registro', options);
+            const response = await fetch('http://localhost:3000/usuarios/registro', options);
+            // const response = await fetch('https://backend-barberia-tsn6.onrender.com/usuarios/registro', options);
 
             if (!response.ok) {
                 const errorMessage = await response.text();
@@ -58,37 +87,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const contentType = response.headers.get('content-type');
             if (contentType && contentType.includes('application/json')) {
-            const data = await response.json();
-            console.log("Usuario registrado:", data);
+                const data = await response.json();
+                console.log("Usuario registrado:", data);
 
-            Swal.fire({
-                icon: 'success',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Usuario registrado exitosamente</h5>",
-                showConfirmButton: false,
-                timer: 1500,
-                customClass: {
-                    popup: 'bg-alert',
-                    content: 'text-alert'
-                }
-            });
-            setTimeout(() => {
-                window.location.href = `/`; 
-            }, 1500);
-        } else {
-            const text = await response.text();
-            console.error("Respuesta no JSON:", text);
+                Swal.fire({
+                    icon: 'success',
+                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Usuario registrado exitosamente</h5>",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'bg-alert',
+                        content: 'text-alert'
+                    }
+                });
+                setTimeout(() => {
+                    window.location.href = `/`; 
+                }, 1500);
+            } else {
+                const text = await response.text();
+                console.error("Respuesta no JSON:", text);
 
-            Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al agregar servicio</h5>",
-                text: "Error en la respuesta del servidor",
-                showConfirmButton: false,
-                timer: 1500,
-                customClass: {
-                    popup: 'bg-alert',
-                }
-            });
-        }
+                Swal.fire({
+                    icon: 'error',
+                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al agregar servicio</h5>",
+                    text: "Error en la respuesta del servidor",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'bg-alert',
+                    }
+                });
+            }
 
         } catch (error) {
             console.error("Fetch error:", error);
