@@ -62,6 +62,21 @@ async function cambiarTelefono(event, id) {
     const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/telefono/barbero/${id}`;
     const telefono = event.target.telefono.value;
+    
+    const telefonoRegex = /^\d{10}$/;
+    if (!telefonoRegex.test(telefono)) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
@@ -116,6 +131,20 @@ async function cambiarCorreo(event, id) {
     const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/correo/barbero/${id}`;
     const correo = event.target.correo.value;
+    
+    if (!correo.includes("@")) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
@@ -233,6 +262,20 @@ async function cambiarContrasena(event, id) {
             title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Las contraseñas no coinciden' + "</h5>",
             showConfirmButton: false,
             timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    if (!passwordRegex.test(contrasenaNueva)) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>La contraseña debe tener al menos 8 caracteres, incluyendo números, letras minúsculas y mayúsculas</h5>",
+            showConfirmButton: false,
+            timer: 4500,
             customClass: {
                 popup: 'bg-alert',
             }

@@ -20,6 +20,33 @@ document.getElementById("registrarBarbero").addEventListener("click", (e) => {
         return; 
     }
 
+    const telefonoRegex = /^\d{10}$/;
+    if (!telefonoRegex.test(telefono)) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+    
+    if (!correo.includes("@")) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
     const token = sessionStorage.getItem("token");
     const options = {
         method: "POST",
