@@ -32,3 +32,42 @@ document.getElementById('btn-realizar-compra').addEventListener('click', async (
         console.error('Error:', error);
     }
 });
+
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'success') {
+        Swal.fire({
+            icon: 'success',
+            title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Compra realizada exitosamente' + "</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+                content: 'text-alert'
+            }
+        });
+        setTimeout(() => {
+            window.location.href = `/cliente/menu`;
+        }, 1500);
+    }
+});
+
+
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'error') {
+        Swal.fire({
+            icon: 'warning',
+            title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Compra cancelada exitosamente' + "</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+                content: 'text-alert'
+            }
+        });
+        setTimeout(() => {
+            window.location.href = `/cliente/menu`;
+        }, 1500);
+    }
+});

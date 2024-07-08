@@ -92,11 +92,17 @@
             </div>
           </div>
         </nav>
-        <% if (entregas[0] && entregas[0].length> 0) { %>
+        <% if (entregas && entregas.length> 0) { %>
           <div class="d-grid gap-3 m-3 ">
-            <% entregas[0].forEach(entrega=> { %>
+            <% entregas.forEach(entrega=> { %>
               <div class="p-2 rounded-4 custom-bg-dark ps-3 d-flex justify-content-between">
                 <ul class="p-0 m-0 me-4">
+                  <b class="text-secondary">Productos: </b><i class="text-light">
+                    <%= entrega.productos %>
+                  </i><br>
+                  <b class="text-secondary">Método de Entrega: </b><i class="text-light">
+                    <%= entrega.metodo %>
+                  </i><br>
                   <b class="text-secondary">Direccion: </b><i class="text-light">
                     <%= entrega.direccion %>
                   </i><br>
@@ -104,9 +110,9 @@
                   <b class="text-secondary">Cliente: </b><i class="text-light">
                     <%= entrega.cliente %>
                   </i><br>
-                  <b class="text-secondary">Productos: </b><i class="text-light">
-                    <%= entrega.productos %>
-                  </i>
+                  <b class="text-secondary">Fecha de Compra: </b><i class="text-light">
+                    <%= entrega.fecha %>
+                  </i><br>
                 </ul>
                 <button type="button"
                   class="ps-sm-5 p-2 pb-5 pb-sm-3 pe-sm-5 btn btn-color border-0 text-white h-50 rounded-4 align-self-center me-5 fs-5"

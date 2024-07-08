@@ -15,6 +15,7 @@ async function eliminarProducto(idProducto) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             const token = sessionStorage.getItem("token");
+            const id = sessionStorage.getItem("id");
             const urlLogic = sessionStorage.getItem("urlLogic") + "/ventas/desactivar/carrito";
             if (idProducto) {
                 const respuesta = await fetch(urlLogic, {
@@ -23,9 +24,9 @@ async function eliminarProducto(idProducto) {
                         'Content-Type': 'application/json',
                         "x-access-token": token
                     },
-                    body: JSON.stringify({ idProducto: idProducto })
+                    body: JSON.stringify({ idProducto: idProducto, id: id })
                 });
-
+                console.log(respuesta);
                 if (respuesta.ok) {
                     Swal.fire({
                         icon: 'success',

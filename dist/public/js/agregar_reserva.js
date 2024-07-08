@@ -77,6 +77,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
+        const now = new Date();
+        const selectedDateTime = new Date(`${fecha}T${hora}:00`);
+
+        if (selectedDateTime < now) {
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'No se puede reservar en una fecha y hora pasada' + "</h5>",
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+            return;
+        }
+
         try {
             const formData = {
                 id,
@@ -113,7 +129,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     window.location.href = `/cliente/menu`;
                 }, 1500);
             } else {
-                throw new Error('Error al enviar la reservación');
+                const result = await response.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + result.message + "</h5>",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    customClass: {
+                        popup: 'bg-alert',
+                    }
+                });
             }
         } catch (error) {
             console.error('Error al enviar la reservación:', error);
