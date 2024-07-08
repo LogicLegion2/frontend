@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('https://backend-barberia-tsn6.onrender.com/usuarios/registro', options);
+            const response = await fetch('https://backend-production-64de.up.railway.app/usuarios/registro', options);
 
             if (!response.ok) {
                 const errorMessage = await response.text();
