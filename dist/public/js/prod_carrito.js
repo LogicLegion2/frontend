@@ -26,7 +26,9 @@ async function eliminarProducto(idProducto) {
                     },
                     body: JSON.stringify({ idProducto: idProducto, id: id })
                 });
-                console.log(respuesta);
+                const data = await respuesta.json();
+                console.log(data);
+                
                 if (respuesta.ok) {
                     Swal.fire({
                         icon: 'success',

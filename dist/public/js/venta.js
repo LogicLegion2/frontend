@@ -75,7 +75,8 @@ window.addEventListener('load', async () => {
                             },
                             body: JSON.stringify({ id })
                         });
-                    } else {
+                    }
+                    else {
                         Swal.fire({
                             icon: 'warning',
                             title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Error PayPal' + "</h5>",
