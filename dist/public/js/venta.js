@@ -65,7 +65,6 @@ window.addEventListener('load', async () => {
                     });
                     if (response.ok) {
                         localStorage.removeItem('productos');
-                        localStorage.removeItem('totalGlobal');
 
                         const responseReiniciar = await fetch(recursoReiniciar, {
                             method: 'POST',

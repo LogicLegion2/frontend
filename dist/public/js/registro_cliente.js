@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        
-        if (!correo.includes("@")) {
+        const telefonoRegex = /^\d{10}$/;
+        if (!telefonoRegex.test(telefono)) {
             Swal.fire({
                 icon: 'error',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
@@ -33,12 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             return;
         }
-
-        const telefonoRegex = /^\d{10}$/;
-        if (!telefonoRegex.test(telefono)) {
+        
+        if (!correo.includes("@")) {
             Swal.fire({
                 icon: 'error',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {

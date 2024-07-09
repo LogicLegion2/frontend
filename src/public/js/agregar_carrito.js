@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'producto añadido al carrito' + "</h5>",
+                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Producto añadido al carrito' + "</h5>",
                     showConfirmButton: false,
                     timer: 1500,
                     customClass: {
