@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem("token");
     const id = sessionStorage.getItem("id"); 
 
-    async function agregarCarrito(producto) {
+    async function agregarCarrito(producto, cantidad) {
+        console.log();
         try {
             const response = await fetch(`${urlLogic}/ventas/carrito/agregar/${producto}`, {
                 method: 'POST',
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                     'x-access-token': token
                 },
-                body: JSON.stringify({ id: id })
+                body: JSON.stringify({ id: id, cantidad: cantidad })
             });
             if (response.ok) {
                 Swal.fire({
