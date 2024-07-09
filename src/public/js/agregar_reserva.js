@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const now = new Date();
-        const selectedDateTime = new Date(`${fecha}T${hora}:00`);
+        const fechaSeleccionada = new Date(`${fecha}T${hora}:00`);
 
-        if (selectedDateTime < now) {
+        if (fechaSeleccionada < now) {
             Swal.fire({
                 icon: 'error',
                 title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'No se puede reservar en una fecha y hora pasada' + "</h5>",
