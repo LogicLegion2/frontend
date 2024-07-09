@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        
         if (!correo.includes("@")) {
             Swal.fire({
                 icon: 'error',
