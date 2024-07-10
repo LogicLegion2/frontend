@@ -20,7 +20,7 @@ const loguear = async () => {
         Swal.fire({
             title: `<h5 style='color:white; font-family: "Aleo", serif;'>Iniciando Sesión</h5>`,
             allowOutsideClick: false,
-            timer: 15000,
+            timer: 35000,
             customClass: {
                 popup: 'bg-alert',
                 content: 'text-alert'
