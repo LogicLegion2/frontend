@@ -3,7 +3,7 @@ window.addEventListener('load', async () => {
     const token = sessionStorage.getItem('token');
     const id = sessionStorage.getItem('id');
     const recursoCancelar = sessionStorage.getItem("urlLogic") + "/ventas/ultima";
-    
+
     if (urlParams.get('status') === 'error') {
         const responseCancelar = await fetch(recursoCancelar, {
             method: 'POST',
@@ -53,6 +53,15 @@ window.addEventListener('load', async () => {
                 const data = await responsePago.json();
                 window.location.href = data.links[1].href;
 
+                const responseReiniciar = await fetch(recursoReiniciar, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "x-access-token": token
+                    },
+                    body: JSON.stringify({ id })
+                });
+                
                 if (responsePago.ok) {
 
                     const response = await fetch(urlLogic, {
@@ -63,32 +72,9 @@ window.addEventListener('load', async () => {
                         },
                         body: JSON.stringify({ id, productos, totalGlobal, metodoEntrega, direccion })
                     });
-                    if (response.ok) {
-                        localStorage.removeItem('productos');
 
-                        const responseReiniciar = await fetch(recursoReiniciar, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                "x-access-token": token
-                            },
-                            body: JSON.stringify({ id })
-                        });
-                    }
-                    else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Error PayPal' + "</h5>",
-                            showConfirmButton: false,
-                            timer: 1500,
-                            customClass: {
-                                popup: 'bg-alert',
-                            }
-                        });
-                        setTimeout(() => {
-                            window.location.href = `/cliente/carrito`;
-                        }, 1500);
-                    }
+                    localStorage.removeItem('productos');
+
                 } else {
                     Swal.fire({
                         icon: 'warning',
