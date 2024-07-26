@@ -25,5 +25,4 @@ server.use("/", ruta);
 server.use("/", (req,res)=>{
     res.render("views.error.ejs")
 });
-
 export default server;
