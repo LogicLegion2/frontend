@@ -1,46 +1,96 @@
 document.getElementById("registrarUsuario").addEventListener("click", (e) => {
-    e.preventDefault(); // Evita que el formulario se envíe automáticamente
+    e.preventDefault(); 
 
-    // Captura los valores del formulario
     const nombre = document.getElementById("nombre").value;
     const telefono = document.getElementById("telefono").value;
     const correo = document.getElementById("correo").value;
-    const contrasena = document.getElementById("contrasena").value;
+    const contrasena = document.getElementById("password").value;
     const rol = document.getElementById("rol").value;
 
-    // Objeto con los datos del usuario
-    const datosUsuario = {
-        nombre: nombre,
-        telefono: telefono,
-        correo: correo,
-        contrasena: contrasena,
-        rol: rol
-    };
+    if (!nombre || !telefono || !correo || !contrasena || !rol) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Todos los campos son obligatorios</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+    
+    const telefonoRegex = /^\d{10}$/;
+    if (!telefonoRegex.test(telefono)) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
 
-    // Enviar los datos al servidor
-    fetch('http://localhost:3000/usuarios/registrar', {
-        method: 'POST',
+    if (!correo.includes("@")) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
+    const token = sessionStorage.getItem("token");
+    const options = {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "content-Type": "application/json",
+            "x-access-token": token
         },
-        body: JSON.stringify(datosUsuario)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json(); // Parsea la respuesta a JSON
-    })
-    .then(data => {
-        // Verifica si la respuesta está vacía antes de intentar analizarla como JSON
-        if (data) {
-            console.log("Usuario agregado:", data); // Muestra en consola la respuesta del servidor
-            location.reload(); // Recarga la página después de agregar el usuario (opcional)
-        } else {
-            console.error("Fetch error: Respuesta vacía o no válida");
-        }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
-    });
+        body: JSON.stringify({
+            nombre: nombre,
+            telefono: telefono,
+            correo: correo,
+            contrasena: contrasena,
+            rol: rol
+        })
+    }
+
+    fetch(sessionStorage.getItem("urlLogic") + '/usuarios/registrar', options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data) {
+                console.log("Usuario agregado:", data); 
+                Swal.fire({
+                    icon: 'success',
+                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Usuario registrado exitosamente</h5>",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'bg-alert',
+                        content: 'text-alert'
+                    }
+                });
+                setTimeout(() => {
+                    window.location.href = "/admin/usuario"
+                }, 1500);
+            } else {
+                console.error("Fetch error: Respuesta vacía o no válida");
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error); 
+        });
 });

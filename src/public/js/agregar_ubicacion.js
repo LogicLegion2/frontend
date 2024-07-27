@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("formAgregarUbicacion").addEventListener("submit", async (e) => {
-        e.preventDefault(); // Evita que el formulario se envíe automáticamente
+        e.preventDefault(); 
 
-        // Captura los valores del formulario
         const titulo = document.getElementById("agregar_titulo").value;
         const ubicacion = document.getElementById("agregar_ubicacion").value;
         const descripcion = document.getElementById("agregar_descripcion").value;
-        const foto = document.getElementById("agregar_imagen").files[0]; // Captura el archivo seleccionado
+        const foto = document.getElementById("agregar_imagen").files[0]; 
 
-        // Verifica si todos los campos están llenos
         if (!titulo || !ubicacion || !descripcion || !foto) {
             Swal.fire({
                 icon: 'error',
@@ -19,36 +17,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     popup: 'bg-alert',
                 }
             });
-            return; // Sale de la función si hay algún campo vacío
+            return; 
         }
 
-        // Crear un objeto FormData para enviar datos binarios
-        const formData = new FormData();
-        formData.append("titulo", titulo);
-        formData.append("ubicacion", ubicacion);
-        formData.append("descripcion", descripcion);
-        formData.append("foto", foto);
+        const token = sessionStorage.getItem("token");
+
+        const dataToSend = {
+            titulo: titulo,
+            ubicacion: ubicacion,
+            descripcion: descripcion,
+            foto: foto.name 
+        };
 
         try {
-            // Obtener token de sessionStorage
-            const token = sessionStorage.getItem("token");
-
-            // Enviar los datos al servidor
             const response = await fetch(sessionStorage.getItem("urlLogic") + '/ubicaciones/crear', {
                 method: 'POST',
                 headers: {
+                    "content-Type": "application/json",
                     "x-access-token": token
                 },
-                body: formData
+                body: JSON.stringify(dataToSend)
             });
 
             if (!response.ok) {
-                const errorMessage = await response.text(); // Obtener el mensaje de error del servidor
+                const errorMessage = await response.text(); 
                 throw new Error(`HTTP error! Status: ${response.status} - ${errorMessage}`);
             }
 
-            const data = await response.json(); // Parsea la respuesta a JSON
-            console.log("Ubicación registrada:", data); // Muestra en consola la respuesta del servidor
+            const responseData = await response.json();
+            console.log("Ubicación registrada:", responseData);
 
             Swal.fire({
                 icon: 'success',
@@ -60,17 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     content: 'text-alert'
                 }
             });
-
-            // Opcional: Recargar la página después de agregar la ubicación
-            // location.reload();
+            window.location.href = "/admin/ubicacion"
 
         } catch (error) {
-            console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
+            console.error("Fetch error:", error);
 
             Swal.fire({
                 icon: 'error',
                 title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar ubicación</h5>",
-                text: error.message, // Mostrar el mensaje de error detallado
+                text: error.message, 
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {

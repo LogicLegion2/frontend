@@ -1,77 +1,97 @@
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("enviar").addEventListener("click", async (e) => {
-        e.preventDefault(); // Evita que el formulario se envíe automáticamente
+"use strict";
 
-        // Captura los valores del formulario
-        const comentario = document.getElementById("comentario").value;
-
-        // Obtener el ID de usuario del sessionStorage
-        const idUsuario = sessionStorage.getItem("userId"); // Ajusta esto según cómo almacenas el ID del usuario
-
-        // Obtener el ID del barbero seleccionado
-        const idBarbero = sessionStorage.getItem("selectedBarberId"); // Ajusta esto según cómo obtienes el ID del barbero seleccionado
-
-        // Objeto con los datos del comentario
-        const datosComentario = {
-            comentario: comentario,
-            idUsuario: idUsuario,
-            idBarbero: idBarbero
-        };
-
-        try {
-            // Obtener token de sessionStorage
-            const token = sessionStorage.getItem("token");
-
-            // Enviar los datos al servidor
-            const response = await fetch(sessionStorage.getItem("urlLogic") + '/comentarios/crear', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "x-access-token": token
-                },
-                body: JSON.stringify(datosComentario)
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById("enviar").addEventListener("click", /*#__PURE__*/function () {
+    var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(e) {
+      var comentario, idUsuario, idBarbero, token, datosComentario, response, contentType, errorText, data;
+      return _regenerator["default"].wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+            comentario = document.getElementById("comentario").value;
+            idUsuario = sessionStorage.getItem("id");
+            idBarbero = sessionStorage.getItem("idBarbero");
+            token = sessionStorage.getItem("token");
+            datosComentario = {
+              comentario: comentario,
+              idUsuario: idUsuario,
+              idBarbero: idBarbero
+            };
+            _context.prev = 6;
+            _context.next = 9;
+            return fetch(sessionStorage.getItem("urlLogic") + '/comentarios/crear', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                "x-access-token": token
+              },
+              body: JSON.stringify(datosComentario)
             });
-
-            const contentType = response.headers.get("content-type");
-            if (!response.ok) {
-                const errorText = await response.text(); // Lee la respuesta como texto
-                throw new Error(`HTTP error! Status: ${response.status} - ${errorText}`);
+          case 9:
+            response = _context.sent;
+            contentType = response.headers.get("content-type");
+            if (response.ok) {
+              _context.next = 16;
+              break;
             }
-
-            if (contentType && contentType.includes("application/json")) {
-                const data = await response.json(); // Parsea la respuesta a JSON
-                console.log("Comentario agregado:", data); // Muestra en consola la respuesta del servidor
-
-                Swal.fire({
-                    icon: 'success',
-                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Comentario agregado exitosamente</h5>",
-                    showConfirmButton: false,
-                    timer: 1500,
-                    customClass: {
-                        popup: 'bg-alert',
-                        content: 'text-alert'
-                    }
-                });
-
-                // Opcional: Recargar la página después de agregar el comentario
-                // location.reload();
-            } else {
-                throw new Error("Received content is not JSON");
+            _context.next = 14;
+            return response.text();
+          case 14:
+            errorText = _context.sent;
+            throw new Error("HTTP error! Status: ".concat(response.status, " - ").concat(errorText));
+          case 16:
+            if (!(contentType && contentType.includes("application/json"))) {
+              _context.next = 25;
+              break;
             }
-
-        } catch (error) {
-            console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
-
+            _context.next = 19;
+            return response.json();
+          case 19:
+            data = _context.sent;
+            console.log("Comentario agregado:", data);
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al agregar comentario</h5>",
-                text: error.message, // Mostrar el mensaje de error detallado
-                showConfirmButton: false,
-                timer: 1500,
-                customClass: {
-                    popup: 'bg-alert',
-                }
+              icon: 'success',
+              title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Comentario agregado exitosamente</h5>",
+              showConfirmButton: false,
+              timer: 1500,
+              customClass: {
+                popup: 'bg-alert',
+                content: 'text-alert'
+              }
             });
+            window.location.reload();
+            _context.next = 26;
+            break;
+          case 25:
+            throw new Error("Received content is not JSON");
+          case 26:
+            _context.next = 32;
+            break;
+          case 28:
+            _context.prev = 28;
+            _context.t0 = _context["catch"](6);
+            console.error("Fetch error:", _context.t0);
+            Swal.fire({
+              icon: 'error',
+              title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al agregar comentario</h5>",
+              text: _context.t0.message,
+              showConfirmButton: false,
+              timer: 1500,
+              customClass: {
+                popup: 'bg-alert'
+              }
+            });
+          case 32:
+          case "end":
+            return _context.stop();
         }
-    });
+      }, _callee, null, [[6, 28]]);
+    }));
+    return function (_x) {
+      return _ref.apply(this, arguments);
+    };
+  }());
 });

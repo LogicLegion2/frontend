@@ -1,5 +1,7 @@
-import server from "./server.js";
+"use strict";
 
-server.listen(server.get("port"), ()=>{
-    console.log(`Frontend en el puerto ${server.get("port")}`);
-})
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _server = _interopRequireDefault(require("./server.js"));
+_server["default"].listen(_server["default"].get("port"), function () {
+  console.log("Frontend en el puerto ".concat(_server["default"].get("port")));
+});

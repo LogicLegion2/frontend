@@ -21,7 +21,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-0 p-0">
-                <nav class="navbar z-2 custom-bg-color fixed-top navbar-dark">
+                <nav class="navbar z-3 custom-bg-color fixed-top navbar-dark">
                     <div class="container-fluid d-flex flex-row-reverse">
                         <a class="navbar-brand me-auto ms-auto fs-1 fw-bold" href="#">Carrito de Compras</a>
                         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
@@ -102,6 +102,7 @@
                                         <img src="data:image/jpeg;base64,<%= producto.img64 %>" alt="..."
                                             class="mg-thumbnail img-car rounded-3 mt-1 ms-2">
                                     </div>
+                                    <input type="hidden" name="nombre-producto" id="nombre-producto" value="<%= producto.producto %>">
                                     <div class="w-100 d-flex m-1 p-1 align-items-center">
                                         <div class="cont-controles p-2">
                                             <i class="text-light txt-car">
