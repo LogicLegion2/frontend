@@ -1,49 +1,106 @@
 document.getElementById("registrarBarbero").addEventListener("click", (e) => {
-    e.preventDefault(); // Evita que el formulario se envíe automáticamente
+    e.preventDefault(); 
 
-    // Captura los valores del formulario
     const nombre = document.getElementById("nombre").value;
     const telefono = document.getElementById("telefono").value;
     const correo = document.getElementById("correo").value;
     const contrasena = document.getElementById("contrasena").value;
     const descripcion = document.getElementById("descripcion").value;
-    const fotoPerfil = document.getElementById("fotoPerfil").value;
 
+    if (!nombre || !telefono || !correo || !contrasena || !descripcion) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Todos los campos son obligatorios</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return; 
+    }
 
-    // Objeto con los datos del barbero
-    const datosBarbero = {
-        nombre: nombre,
-        correo: correo,
-        contrasena: contrasena,
-        telefono: telefono,
-        descripcion: descripcion,
-        fotoPerfil: fotoPerfil
-    };
+    const telefonoRegex = /^\d{10}$/;
+    if (!telefonoRegex.test(telefono)) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+    
+    if (!correo.includes("@")) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
 
-    // Enviar los datos al servidor
-    fetch('http://localhost:3000/usuarios/barbero', {
-        method: 'POST',
+    const token = sessionStorage.getItem("token");
+    const options = {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "content-Type": "application/json",
+            "x-access-token": token
         },
-        body: JSON.stringify(datosBarbero)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json(); // Parsea la respuesta a JSON
-    })
-    .then(data => {
-        // Verifica si la respuesta está vacía antes de intentar analizarla como JSON
-        if (data) {
-            console.log("Barbero agregado:", data); // Muestra en consola la respuesta del servidor
-            // location.reload(); // Recarga la página después de agregar el barbero (opcional)
-        } else {
-            console.error("Fetch error: Respuesta vacía o no válida");
-        }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error); // Manejo de errores si falla la petición fetch
-    });
+        body: JSON.stringify({
+            nombre: nombre,
+            correo: correo,
+            contrasena: contrasena,
+            telefono: telefono,
+            descripcion: descripcion,
+        })
+    }
+
+    fetch(sessionStorage.getItem("urlLogic") + '/usuarios/barbero', options)
+
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); 
+        })
+        .then(data => {
+            if (data) {
+                console.log("Barbero agregado:", data); 
+                Swal.fire({
+                    icon: 'success',
+                    title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Barbero registrado exitosamente</h5>",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'bg-alert',
+                        content: 'text-alert'
+                    }
+                });
+                setTimeout(() => {
+                    window.location.href = "/admin/usuario"
+                }, 1500);
+            } else {
+                console.error("Fetch error: Respuesta vacía o no válida");
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+            Swal.fire({
+                icon: 'error',
+                title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Error al registrar barbero</h5>",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    popup: 'bg-alert',
+                }
+            });
+        });
 });

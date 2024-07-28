@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="/css/global-style.css">
   <link rel="stylesheet" href="/css/style_principal.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/img/icon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300&display=swap"
     rel="stylesheet">
@@ -61,7 +62,7 @@
                 </li>
                 <li
                   class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
-                  <a class="nav-link " href="/cliente/cita">Historial de Reseras</a><i class="bi bi-chevron-right"></i>
+                  <a class="nav-link " href="/cliente/cita">Historial de Reservas</a><i class="bi bi-chevron-right"></i>
                 </li>
                 <li
                   class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
@@ -85,22 +86,14 @@
     <div class="col-11 container">
       <div class="justify-content-center pt-4 d-flex">
         <div class="col-6">
-          <form>
-            <select id="ubicacion" class="mt-4 border-0 text-center form-select">
-              <!-- <option disabled selected>Tarjeta de crédito</option> -->
-              <option>Tarjeta de crédito</option>
-              <option>Contra entrega</option>
-            </select>
-            <input type="text" id="numero_tarjeta" class="text-white mt-4 text-center border-0 form-control"
-              placeholder="Ingresa el número de tarjeta">
-            <select id="ubicacion" class="mt-4 text-center border-0 form-select">
-              <!-- <option disabled selected>Domicilio</option> -->
+          <form id="form-comprar-producto">
+            <select id="metodoEntrega" class="mt-4 text-center border-0 form-select" required>
               <option>Domicilio</option>
               <option>Recoger en tienda</option>
             </select>
-            <input type="text" id="numero_tarjeta" class="text-white mt-4 text-center border-0 form-control"
+            <input type="text" id="direccion" class="text-white mt-4 text-center border-0 form-control"
               placeholder="Ingresa Dirección">
-            <button type="submit" class="mt-5 fw-bold btn fs-5 w-100 btn-color text-white">Realizar Compra</button>
+            <button id="checkout" type="submit" class="mt-5 fw-bold btn fs-5 w-100 btn-color text-white">Realizar Compra</button>
           </form>
         </div>
       </div>
@@ -112,6 +105,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/venta.js"></script>
 </body>
-
 </html>

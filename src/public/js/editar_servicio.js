@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('descripcion').value = data.descripcion;
             document.getElementById('precio').value = data.precio;
 
-            // Valores en los placeholders
             document.getElementById('tipoServicio').setAttribute('placeholder', data.tipoServicio);
             document.getElementById('descripcion').setAttribute('placeholder', data.descripcion);
             document.getElementById('precio').setAttribute('placeholder', data.precio);
@@ -31,10 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         try {
+            const token = sessionStorage.getItem("token");
             const response = await fetch(sessionStorage.getItem("urlLogic") + '/servicios/editar', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "x-access-token": token
                 },
                 body: JSON.stringify(formData)
             });
@@ -55,14 +56,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 1500);
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Intentalo de nuevo más tarde' + "</h5>",
+                    icon: 'warning',
+                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                     showConfirmButton: false,
                     timer: 1500,
                     customClass: {
                         popup: 'bg-alert',
                     }
                 });
+                setTimeout(() => {
+                    window.location.href = `/admin/servicio`;
+                }, 1500);
             }
         } catch (error) {
             Swal.fire({

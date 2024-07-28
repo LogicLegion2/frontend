@@ -1,16 +1,8 @@
 import { config } from "dotenv";
+import { token } from "morgan";
 config();
 
 const url = process.env.BACKEND_URL
-
-// const blobToBase64 = (blob) => {
-//     return new Promise((resolve, reject) => {
-//         const reader = new FileReader();
-//         reader.onloadend = () => resolve(reader.result.split(',')[1]);
-//         reader.onerror = reject;
-//         reader.readAsDataURL(new Blob([blob]));
-//     });
-// };
 
 export const paginaPrincipalCliente = async (req, res) => {
     const { desc, tipo} = req.query
@@ -22,26 +14,9 @@ export const paginaPrincipalCliente = async (req, res) => {
         recurso = url + `/barberos/buscar?desc=${desc}&tipo=${tipo}`;
     }
 
-    const token = req.headers["x-access-token"] || req.query.token;
-
-    const options = {
-        headers: {
-            "x-access-token": token
-        }
-    };
-
     try {
-        const response = await fetch(recurso, options);
+        const response = await fetch(recurso);
         const data = await response.json();
-
-        // const barberosConImagenes = await Promise.all(data.barberos.map(async barbero => {
-        //     if (barbero.foto) {
-        //         const base64String = await blobToBase64(barbero.foto);
-        //         console.log(base64String);
-        //         barbero.foto = `data:image/jpeg;base64,${base64String}`;
-        //     }
-        //     return barbero;
-        // }));
 
         res.render("views.barbero.ejs", {
             barberos: data.barberos,
@@ -49,7 +24,8 @@ export const paginaPrincipalCliente = async (req, res) => {
             productos: data.productos,
             ofertas: data.ofertas,
             ubicaciones: data.ubicaciones,
-            preguntas: data.preguntas
+            preguntas: data.preguntas,
+            url:url
         });
     } catch (error) {
         console.error(error);

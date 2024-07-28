@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const id = localStorage.getItem('ofertaSeleccionada');
-    console.log(id);
     if (id) {
         const urlOferta = sessionStorage.getItem("urlLogic") + `/ofertas/obtener/${id}`;
         const urlProductos = sessionStorage.getItem("urlLogic") + `/productos`;
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
             } else {
-                console.error('Error fetching data:', responseOferta.statusText || 'Error desconocido');
+                console.error(responseOferta,responseProductos)
             }
 
         } catch (error) {
@@ -60,10 +59,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         try {
+            const token = sessionStorage.getItem("token");
             const response = await fetch(sessionStorage.getItem("urlLogic") + `/ofertas/editar`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "x-access-token": token
                 },
                 body: JSON.stringify(formData)
             });
@@ -85,14 +86,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 1500);
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Inténtalo de nuevo más tarde' + "</h5>",
+                    icon: 'warning',
+                    title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                     showConfirmButton: false,
                     timer: 1500,
                     customClass: {
                         popup: 'bg-alert',
                     }
                 });
+                setTimeout(() => {
+                    window.location.href = `/admin/oferta`;
+                }, 1500);
             }
         } catch (error) {
             console.error('Error al editar la oferta:', error);

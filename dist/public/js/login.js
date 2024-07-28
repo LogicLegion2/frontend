@@ -17,15 +17,27 @@ const loguear = async () => {
     };
 
     try {
+        Swal.fire({
+            title: `<h5 style='color:white; font-family: "Aleo", serif;'>Iniciando Sesión</h5>`,
+            allowOutsideClick: false,
+            timer: 35000,
+            customClass: {
+                popup: 'bg-alert',
+                content: 'text-alert'
+            },
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
         const response = await fetch(urlLogic, options);
         const data = await response.json();
-
+        
         if (data.error) {
             Swal.fire({
                 icon: 'warning',
                 title: `<h5 style='color:white; font-family: "Aleo", serif;'>${data.message}</h5>`,
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 30000,
                 customClass: {
                     popup: 'bg-alert',
                     content: 'text-alert'
@@ -36,7 +48,7 @@ const loguear = async () => {
             sessionStorage.setItem("id", data.id);
             sessionStorage.setItem("rol", data.rol);
             document.cookie = `id=${data.id}; path=/`;
-
+            document.cookie = `token=${data.token}; path=/`;
             switch (data.rol) {
                 case 'administrador':
                     window.location.href = "/admin/home";
@@ -78,7 +90,7 @@ const cerrarSesion = async () => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": token  // Incluir el token en los headers
+            "x-access-token": token 
         }
     };
 
@@ -87,16 +99,15 @@ const cerrarSesion = async () => {
         const data = await response.json();
 
         if (response.status === 200) {
-            // Limpiar datos de sesión
+
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("id");
             sessionStorage.removeItem("rol");
             document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-            // Redireccionar al login
             window.location.href = "/";
         } else {
-            // Manejar errores
             console.error("Error al cerrar sesión:", data.message);
         }
     } catch (err) {

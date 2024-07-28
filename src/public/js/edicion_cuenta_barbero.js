@@ -5,13 +5,15 @@ function toggleEdit(field) {
 
 async function cambiarNombre(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/nombre/barbero/${id}`;
     const nombre = event.target.nombre.value;
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, nombre })
         });
@@ -31,13 +33,12 @@ async function cambiarNombre(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar el nombre` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -58,13 +59,30 @@ async function cambiarNombre(event, id) {
 
 async function cambiarTelefono(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/telefono/barbero/${id}`;
     const telefono = event.target.telefono.value;
+    
+    const telefonoRegex = /^\d{10}$/;
+    if (!telefonoRegex.test(telefono)) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Número de teléfono no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, telefono })
         });
@@ -84,13 +102,12 @@ async function cambiarTelefono(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar el télefono` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -111,13 +128,29 @@ async function cambiarTelefono(event, id) {
 
 async function cambiarCorreo(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/correo/barbero/${id}`;
     const correo = event.target.correo.value;
+    
+    if (!correo.includes("@")) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>Correo electronico no valido</h5>",
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, correo })
         });
@@ -137,13 +170,12 @@ async function cambiarCorreo(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar el correo` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -164,6 +196,7 @@ async function cambiarCorreo(event, id) {
 
 async function cambiarFoto(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/foto/barbero/${id}`;
     const formData = new FormData();
     const foto = event.target.foto.files[0];
@@ -190,13 +223,12 @@ async function cambiarFoto(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar la foto de perfil` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }
@@ -217,6 +249,7 @@ async function cambiarFoto(event, id) {
 
 async function cambiarContrasena(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/contrasena/barbero/${id}`;
     const form = event.target;
     const contrasena = form.contrasena.value;
@@ -236,11 +269,26 @@ async function cambiarContrasena(event, id) {
         return;
     }
 
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    if (!passwordRegex.test(contrasenaNueva)) {
+        Swal.fire({
+            icon: 'error',
+            title: "<h5 style='color:white; font-family: \"Aleo\", serif;'>La contraseña debe tener al menos 8 caracteres, incluyendo números, letras minúsculas y mayúsculas</h5>",
+            showConfirmButton: false,
+            timer: 4500,
+            customClass: {
+                popup: 'bg-alert',
+            }
+        });
+        return;
+    }
+
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, contrasena, contrasenaNueva })
         });
@@ -260,10 +308,9 @@ async function cambiarContrasena(event, id) {
                 window.location.reload();
             }, 1500);
         } else {
-            const errorData = await response.json();
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Intentalo de nuevo más tarde' + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
@@ -288,13 +335,15 @@ async function cambiarContrasena(event, id) {
 
 async function cambiarDescripcion(event, id) {
     event.preventDefault();
+    const token = sessionStorage.getItem("token");
     const urlLogic = sessionStorage.getItem("urlLogic") + `/usuarios/descripcion/${id}`;
     const descripcion = event.target.descripcion.value;
     try {
         const response = await fetch(urlLogic, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "x-access-token": token
             },
             body: JSON.stringify({ id, descripcion })
         });
@@ -314,13 +363,12 @@ async function cambiarDescripcion(event, id) {
             }, 1500);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + `Error al cambiar la descripción` + "</h5>",
+                icon: 'warning',
+                title: "<h5 style='color:white; font-family: 'Aleo', serif;'>" + 'Debes iniciar sesión primero' + "</h5>",
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
                     popup: 'bg-alert',
-                    content: 'text-alert'
                 }
             });
         }

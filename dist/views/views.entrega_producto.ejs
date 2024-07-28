@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/global-style.css">
   <link rel="stylesheet" href="/css/style_principal.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="icon" href="/img/icon.png" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300&display=swap"
@@ -91,20 +92,31 @@
             </div>
           </div>
         </nav>
-        <% if (entregas[0] && entregas[0].length> 0) { %>
+        <% if (entregas && entregas.length> 0) { %>
           <div class="d-grid gap-3 m-3 ">
-            <% entregas[0].forEach(entrega=> { %>
-              <div class="p-2 rounded-4 custom-bg-dark ps-3">
-                <b class="text-secondary">Direccion: </b><i class="text-light">
-                  <%= entrega.direccion %>
-                </i><br>
-                <b class="text-secondary">Valor: </b><i class="text-light"> $<%= entrega.valor %></i><br>
-                <b class="text-secondary">Cliente: </b><i class="text-light">
-                  <%= entrega.cliente %>
-                </i><br>
-                <b class="text-secondary">Productos: </b><i class="text-light">
-                  <%= entrega.productos %>
-                </i>
+            <% entregas.forEach(entrega=> { %>
+              <div class="p-2 rounded-4 custom-bg-dark ps-3 d-flex justify-content-between">
+                <ul class="p-0 m-0 me-4">
+                  <b class="text-secondary">Productos: </b><i class="text-light">
+                    <%= entrega.productos %>
+                  </i><br>
+                  <b class="text-secondary">Método de Entrega: </b><i class="text-light">
+                    <%= entrega.metodo %>
+                  </i><br>
+                  <b class="text-secondary">Direccion: </b><i class="text-light">
+                    <%= entrega.direccion %>
+                  </i><br>
+                  <b class="text-secondary">Valor: </b><i class="text-light"> $<%= entrega.valor %></i><br>
+                  <b class="text-secondary">Cliente: </b><i class="text-light">
+                    <%= entrega.cliente %>
+                  </i><br>
+                  <b class="text-secondary">Fecha de Compra: </b><i class="text-light">
+                    <%= entrega.fecha %>
+                  </i><br>
+                </ul>
+                <button type="button"
+                  class="ps-sm-5 p-2 pb-5 pb-sm-3 pe-sm-5 btn btn-color border-0 text-white h-50 rounded-4 align-self-center me-5 fs-5"
+                  onclick="eliminarEntrega('<%= entrega.id %>')">Entregada</button>
               </div>
               <% }); %>
           </div>
@@ -120,6 +132,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/entrega.js"></script>
 </body>
 
 </html>

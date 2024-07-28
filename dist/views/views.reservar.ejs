@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/global-style.css">
     <link rel="stylesheet" href="/css/style_principal.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="/img/icon.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300&display=swap"
@@ -68,7 +69,7 @@
                                 </li>
                                 <li
                                     class="nav-item border-bottom pb-2 border-opacity-75 border-secondary d-flex justify-content-between">
-                                    <a class="nav-link " href="/cliente/cita">Historial de Reseras</a><i
+                                    <a class="nav-link " href="/cliente/cita">Historial de Reservas</a><i
                                         class="bi bi-chevron-right"></i>
                                 </li>
                                 <li
@@ -95,33 +96,39 @@
         <div class="container">
             <div class="row justify-content-center pt-2">
                 <div class="col-12 col-md-6">
-                    <form>
-                        <select id="ubicacion" class="mt-3 border-0 text-center form-select">
+                    <form id="addForm">
+                        <select id="ubicacion" name="ubicacion" class="mt-3 border-0 text-center form-select" required>
                             <option disabled selected>Seleccione ubicación</option>
-                            <option>Cra 45 #35-65</option>
-                            <option>Cll 56 #96-75</option>
                         </select>
-                        <select id="barbero" class="mt-3 border-0 text-center form-select">
+                        <select id="barbero" name="barbero" class="mt-3 border-0 text-center form-select" required>
                             <option disabled selected>Seleccione barbero</option>
-                            <option>Alejandro Perez</option>
-                            <option>Daniel Gonzales</option>
                         </select>
-                        <input type="date" id="fecha" class="text-white mt-3 text-center border-0 form-control"
-                            placeholder="Seleccione la fecha">
-                        <select id="horario" class="mt-3 border-0 text-center form-select">
+                        <input type="date" id="fecha" name="fecha" class="text-white mt-3 text-center border-0 form-control" placeholder="Seleccione la fecha">
+                        <select placeholder="Seleccione horario" id="horario" name="horario" class="mt-3 border-0 text-center form-select" required>
                             <option disabled selected>Seleccione horario</option>
-                            <option>10:00 a.m.</option>
-                            <option>10:30 a.m.</option>
+                            <option>9:00</option>
+                            <option>9:30</option>
+                            <option>10:00</option>
+                            <option>10:30</option>
+                            <option>11:00</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>14:00</option>
+                            <option>14:30</option>
+                            <option>15:00</option>
+                            <option>15:30</option>
+                            <option>16:00</option>
+                            <option>16:30</option>
+                            <option>17:00</option>
                         </select>
-                        <select id="servicio" class="mt-3 border-0 text-center form-select">
+                        <select id="servicio" name="servicio" class="mt-3 border-0 text-center form-select" required>
                             <option disabled selected>Seleccione servicio</option>
-                            <option>Corte de pelo</option>
-                            <option>Arreglo de barba</option>
                         </select>
-                        <textarea id="notas" class="text-white mt-3 text-center border-0 form-control" rows="3"
-                            placeholder="Ingrese notas especiales:"></textarea>
-                        <button type="submit"
-                            class="mt-5 fw-bold btn fs-5 w-100 btn-form text-white btn-color">Aceptar</button>
+                        <textarea id="notas" name="notas" class="text-white mt-3 text-center border-0 form-control" rows="3" placeholder="Ingrese notas especiales:"></textarea>
+                        <button type="submit" class="mt-5 fw-bold btn fs-5 w-100 btn-form text-white btn-color">Agregar</button>
                     </form>
                 </div>
             </div>
@@ -133,6 +140,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="/js/agregar_reserva.js"></script>
 </body>
 
 </html>
