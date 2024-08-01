@@ -4,7 +4,7 @@ WORKDIR /dist
 
 COPY package*.json ./
 
-RUN git clone https://github.com/LogicLegion2/frontend.git
+RUN npm install 
 
 COPY . .
 
